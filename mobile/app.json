@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "JustiConsulta Mobile",
+    "slug": "justiconsulta-mobile",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "android": {
+      "package": "com.justiconsulta.mobile"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7b03522c-47ad-461d-beed-d1bd18c0b739"
+      }
+    }
+  }
+}

@@ -1,0 +1,157 @@
+/* Contenedor de la página */
+.pageWrapper {
+  width: 100%;
+  max-width: 100%;
+}
+
+.headerSection {
+  margin-bottom: 24px;
+}
+
+/* TARJETA DEL HISTORIAL */
+.historyCard {
+  background-color: #FFFFFF;
+  border: 1px solid var(--color-borde);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden; /* Para que los bordes redondeados corten la tabla */
+  width: 100%;
+}
+
+/* CONTENEDOR DE LA TABLA (SCROLL) */
+.tableContainer {
+  width: 100%;
+  overflow-x: auto; /* Permite scroll horizontal si la pantalla es pequeña */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap; /* Evita que el texto se parta en dos líneas */
+}
+
+/* CABECERA (HEADER) */
+.th {
+  background-color: #F8FAFC !important; /* !important para forzar el gris */
+  color: var(--color-texto-secundario);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 18px 24px; /* Buen padding vertical */
+  text-align: left;
+  border-bottom: 1px solid var(--color-borde);
+}
+
+/* FILAS (ROWS) */
+.tr {
+  background-color: #FFFFFF;
+  border-bottom: 1px solid var(--color-borde-soft);
+  transition: background-color 0.2s ease;
+}
+
+.tr:hover {
+  background-color: #F1F5F9; /* Efecto hover gris suave */
+}
+
+.tr:last-child {
+  border-bottom: none;
+}
+
+/* CELDAS (DATA) */
+.td {
+  padding: 18px 24px; /* Mismo padding que el header */
+  color: var(--color-texto-cuerpo);
+  font-size: 0.95rem;
+  vertical-align: middle; /* Centrado vertical perfecto */
+}
+
+/* Estilo especial para la fecha */
+.dateText {
+  color: var(--color-texto-secundario);
+  font-family: 'Inter', monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9rem;
+}
+
+/* Botón de enlace de la radicación */
+.linkButton {
+  background: transparent;
+  border: none;
+  color: var(--brand-primary);
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', monospace;
+  font-size: 1rem;
+  padding: 0;
+  text-decoration: none;
+}
+
+.linkButton:hover {
+  color: var(--brand-accent);
+  text-decoration: underline;
+}
+
+/* Estado Vacío */
+.emptyState {
+  padding: 60px;
+  text-align: center;
+  color: var(--color-texto-secundario);
+  font-size: 1.1rem;
+  background-color: #F8FAFC;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;  /* ★ ESTO ARREGLA EL ESPACIADO */
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .historyCard { padding: 28px; }
+  .tableContainer { border-radius: 12px; }
+}
+
+/* Móviles */
+@media (max-width: 768px) {
+  .pageWrapper { padding: 20px; }
+  .historyCard { 
+    padding: 24px; 
+    border-radius: 12px;
+  }
+  .headerSection h1 { font-size: 1.5rem; }
+  .tableContainer {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+  }
+  .table {
+    min-width: 600px;
+  }
+  .th, .td { 
+    padding: 10px 14px; 
+    font-size: 0.9rem;
+  }
+  .dateText { font-size: 0.85rem; }
+  .linkButton { 
+    padding: 6px 14px; 
+    font-size: 0.9rem;
+  }
+  .emptyState { 
+    padding: 40px 20px; 
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pageWrapper { padding: 16px; }
+  .historyCard { padding: 20px; }
+  .headerSection h1 { font-size: 1.3rem; }
+  .th, .td { padding: 8px 12px; }
+  .linkButton { padding: 5px 12px; }
+  .emptyState { padding: 30px 16px; }
+}
+

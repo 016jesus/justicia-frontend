@@ -1,0 +1,54 @@
+﻿.chartCard {
+  background-color: var(--color-tarjeta);
+  border: 1px solid var(--color-borde);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+  transition: box-shadow 0.2s ease;
+}
+
+.chartCard:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.header {
+  margin-bottom: 24px;
+  padding-left: 8px; /* Alineación visual con la gráfica */
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--brand-primary);
+  margin: 0 0 4px 0;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: var(--color-texto-secundario);
+  margin: 0;
+}
+
+.chartWrapper {
+  width: 100%;
+  height: 300px; /* Altura fija para la gráfica */
+}
+
+.emptyState {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-texto-secundario);
+  font-size: 0.95rem;
+  background-color: #F8FAFC;
+  border-radius: 8px;
+  border: 1px dashed var(--color-borde);
+}
+
+/* Cursor de mano para indicar que es interactivo */
+.interactiveChart {
+  cursor: pointer;
+}

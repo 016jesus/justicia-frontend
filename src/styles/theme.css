@@ -1,0 +1,104 @@
+/* IMPORTANTE: Importar la fuente Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* === 1. PALETA DE MARCA (Premium Legal) === */
+  --brand-primary: #0F172A;       /* Navy Profundo (Seriedad) */
+  --brand-primary-light: #1E293B; /* Para hovers */
+  
+  /* Dorado "Antique" (Lujo, no amarillo) */
+  --brand-accent: #D97706;        
+  --brand-accent-hover: #B45309;
+  --brand-accent-bg: #FFFBEB;     
+  --brand-accent-text: #182945;
+
+  /* === 2. BASE NEUTRA === */
+  --color-fondo: #F1F5F9;  /* Gris azulado muy suave */
+  --color-tarjeta: #FFFFFF;
+  --color-panel: #FFFFFF;
+  
+  /* === 3. TEXTOS === */
+  --color-texto-principal: #0F172A; 
+  --color-texto-cuerpo: #334155;    
+  --color-texto-secundario: #64748B; 
+  --color-texto-invertido: #FFFFFF;
+
+  /* === 4. UI ELEMENTS === */
+  --color-borde: #E2E8F0;
+  --color-borde-soft: #F1F5F9;
+  --color-success: #059669;
+  --color-error: #DC2626;
+  --color-error-bg: #FEF2F2;
+
+  /* === 5. SOMBRAS PREMIUM === */
+  --shadow-sm: 0 1px 2px 0 rgb(15 23 42 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(15 23 42 / 0.1), 0 2px 4px -2px rgb(15 23 42 / 0.1);
+  --shadow-lg: 0 20px 25px -5px rgb(15 23 42 / 0.1), 0 8px 10px -6px rgb(15 23 42 / 0.1);
+  --shadow-gold: 0 4px 14px 0 rgba(217, 119, 6, 0.25); 
+
+  /* === 6. SIDEBAR === */
+  --sidebar-bg: var(--brand-primary);
+  --sidebar-text: #94A3B8; 
+  --sidebar-hover: rgba(255, 255, 255, 0.05);
+  --nav-active-bg: rgba(255, 255, 255, 0.08);
+  --nav-active-border: var(--brand-accent);
+  --nav-active-text: #FCD34D; 
+
+  /* === 7. CONFIGURACIÓN === */
+  --font-family-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-size-body: 15px;
+  --line-height-body: 1.6;
+  
+  --duration-fast: 150ms;
+  --duration-normal: 0.2s;
+  --duration-slow: 400ms;
+  --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* === UTILIDADES RESTAURADAS === */
+
+/* Transiciones base */
+.transition-base {
+  transition: color var(--duration-normal) var(--easing-standard),
+              background-color var(--duration-normal) var(--easing-standard),
+              border-color var(--duration-normal) var(--easing-standard),
+              box-shadow var(--duration-normal) var(--easing-standard),
+              transform var(--duration-normal) var(--easing-standard);
+}
+
+/* Animación de entrada de página */
+@keyframes pageFadeSlide {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-fade-enter {
+  animation: pageFadeSlide var(--duration-slow) var(--easing-standard) both;
+}
+
+/* Esqueletos de carga (Skeletons) */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.skeleton-line {
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #f0f2f5 25%, #e6e9ee 37%, #f0f2f5 63%);
+  background-size: 800px 104px;
+  animation: shimmer 1.2s linear infinite;
+}
+
+.skeleton-avatar { 
+  width: 36px; height: 36px; border-radius: 999px; 
+  background: linear-gradient(90deg, #f0f2f5 25%, #e6e9ee 37%, #f0f2f5 63%); 
+  background-size: 800px 104px; 
+  animation: shimmer 1.2s linear infinite; 
+}
+
+.skeleton-block { 
+  height: 100px; border-radius: 10px; 
+  background: linear-gradient(90deg, #f0f2f5 25%, #e6e9ee 37%, #f0f2f5 63%); 
+  background-size: 800px 104px; 
+  animation: shimmer 1.2s linear infinite; 
+}

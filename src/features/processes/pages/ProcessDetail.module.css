@@ -1,0 +1,348 @@
+﻿/* ProcessDetail.module.css */
+
+.pageWrapper {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0 16px;
+}
+
+.backButton {
+  margin-bottom: 8px;
+}
+
+.backButton button {
+  padding-left: 0;
+  color: var(--color-texto-secundario);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  font-size: 0.95rem;
+}
+
+.backButton button:hover {
+  color: var(--brand-primary);
+}
+
+.loadingState {
+  padding: 40px;
+  text-align: center;
+  color: var(--color-texto-secundario);
+  font-size: 1rem;
+}
+
+/* La tarjeta de resumen de arriba */
+.summaryCard {
+  background-color: var(--color-tarjeta);
+  border-radius: 12px;
+  padding: 24px 30px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  border: 1px solid var(--color-borde);
+}
+
+.radicacionTitle {
+  color: var(--brand-primary);
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.radicacionSubtitle {
+  color: var(--color-texto-secundario);
+  font-size: 0.95rem;
+  margin-top: 4px;
+}
+
+.dataGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px 24px;
+  margin-top: 16px;
+}
+
+.dataGrid div {
+  font-size: 0.95rem;
+}
+.dataGrid div strong {
+  color: var(--color-texto-secundario);
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+/* --- JERARQUÍA DE BOTONES (COHERENTE) --- */
+.buttonGroup {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.primary {
+  background-color: var(--brand-accent); /* Dorado */
+  color: var(--brand-accent-text); /* Azul Oscuro */
+}
+.primary:hover {
+  background-color: var(--brand-accent-hover);
+}
+
+.secondary {
+  background-color: transparent;
+  color: var(--text-primary); /* Azul Oscuro */
+  border: 1px solid var(--brand-primary); /* Borde Azul Oscuro */
+}
+.secondary:hover {
+  background-color: rgba(24, 41, 69, 0.05); /* Hover sutil */
+}
+
+
+/* --- ARREGLO DE PESTAÑAS (TABS) "PAILAS" --- */
+.tabContainer {
+  display: flex;
+  gap: 24px;
+  border-bottom: 2px solid var(--color-borde);
+}
+
+.tab {
+  background: none;
+  border: none;
+  padding: 12px 0;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-texto-secundario);
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  margin-bottom: -2px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.tab:hover {
+  color: var(--brand-primary);
+}
+
+.tabActive {
+  color: var(--brand-primary); /* Activa es AZUL */
+  border-bottom-color: var(--brand-primary); /* Línea AZUL */
+}
+
+/* La tarjeta que contiene el contenido de las pestañas */
+.tabContentCard {
+  background-color: var(--color-tarjeta);
+  border-radius: 12px;
+  padding: 24px 30px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  border: 1px solid var(--color-borde);
+}
+.tabContentCard h3 {
+  color: var(--brand-primary);
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.dataGridFull {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 20px;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .pageWrapper {
+    padding: 0 12px;
+    gap: 20px;
+  }
+  .summaryCard { 
+    padding: 20px 24px; 
+  }
+  .dataGrid { 
+    grid-template-columns: 1fr; 
+    gap: 10px; 
+  }
+  .dataGridFull { 
+    grid-template-columns: 1fr; 
+  }
+  .tabContainer { 
+    gap: 16px; 
+  }
+}
+
+/* Móviles */
+@media (max-width: 768px) {
+  .pageWrapper {
+    padding: 0 8px;
+    gap: 16px;
+  }
+  
+  .backButton {
+    margin-bottom: 8px;
+  }
+  
+  .backButton button {
+    font-size: 0.9rem;
+    padding: 8px 0;
+  }
+  
+  .loadingState {
+    padding: 32px 20px;
+    font-size: 0.95rem;
+  }
+  
+  .summaryCard { 
+    padding: 18px 20px; 
+    border-radius: 10px;
+  }
+  .radicacionTitle { 
+    font-size: 1.4rem; 
+    word-break: break-word;
+    line-height: 1.3;
+  }
+  .radicacionSubtitle { 
+    font-size: 0.9rem;
+    margin-top: 6px;
+  }
+  .dataGrid { 
+    grid-template-columns: 1fr; 
+    gap: 10px 16px;
+    margin-top: 14px;
+  }
+  .dataGrid div { 
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .dataGrid div strong {
+    display: inline-block;
+    min-width: 110px;
+  }
+  .buttonGroup { 
+    flex-direction: column; 
+    margin-top: 16px;
+    gap: 10px;
+  }
+  .button { 
+    width: 100%; 
+    justify-content: center;
+  }
+  .tabContainer { 
+    gap: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    border-bottom: 1px solid var(--color-borde);
+    margin: 0 -8px;
+    padding: 0 8px;
+  }
+  .tabContainer::-webkit-scrollbar {
+    height: 3px;
+  }
+  .tabContainer::-webkit-scrollbar-thumb {
+    background: var(--color-borde);
+    border-radius: 3px;
+  }
+  .tab { 
+    padding: 10px 16px; 
+    font-size: 0.9rem;
+    min-width: fit-content;
+    flex-shrink: 0;
+  }
+  .tabContentCard { 
+    padding: 20px 0;
+    border-radius: 10px;
+  }
+  .tabContentCard h3 {
+    padding: 0 20px;
+  }
+  .tabContentCard h3 { 
+    font-size: 1.15rem; 
+    margin-bottom: 14px;
+  }
+  .dataGridFull { 
+    grid-template-columns: 1fr; 
+    gap: 10px;
+  }
+  .dataGridFull div {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .dataGridFull div strong {
+    display: inline-block;
+    min-width: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pageWrapper {
+    padding: 0 4px;
+    gap: 14px;
+  }
+  
+  .backButton button {
+    font-size: 0.85rem;
+    padding: 6px 0;
+  }
+  
+  .summaryCard { 
+    padding: 16px; 
+    border-radius: 8px;
+  }
+  .radicacionTitle { 
+    font-size: 1.2rem; 
+  }
+  .radicacionSubtitle {
+    font-size: 0.85rem;
+  }
+  .dataGrid div { 
+    font-size: 0.85rem; 
+  }
+  .dataGrid div strong {
+    min-width: 95px;
+    font-size: 0.8rem;
+  }
+  .buttonGroup { 
+    gap: 8px; 
+  }
+  .button { 
+    padding: 10px 16px; 
+    font-size: 0.9rem;
+  }
+  .tab { 
+    padding: 10px 12px; 
+    font-size: 0.85rem;
+  }
+  .tabContentCard { 
+    padding: 16px 0;
+    border-radius: 8px;
+  }
+  .tabContentCard h3 {
+    padding: 0 16px;
+  }
+  .tabContentCard h3 { 
+    font-size: 1.1rem; 
+  }
+  .dataGridFull div {
+    font-size: 0.85rem;
+  }
+  .dataGridFull div strong {
+    min-width: 85px;
+    font-size: 0.8rem;
+  }
+}

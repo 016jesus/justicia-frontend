@@ -1,0 +1,596 @@
+/* 1. Contenedor Split-Screen */
+.auth-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* 2. Panel de Bienvenida (Izquierda) */
+.auth-panel-welcome {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--brand-primary);
+  padding: 80px 60px;
+  color: #fff;
+  text-align: center;
+}
+
+/* --- LOGO --- */
+.auth-panel-welcome .logo-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 40px;
+  padding-top: 20px;
+}
+
+/* Contenedor interno del logo (de LogoV.jsx) */
+.juriscope-logo-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+/* SVG del logo */
+.juriscope-logo-container svg {
+  width: 150px;
+  height: auto;
+  filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.35));
+}
+
+/* Color dorado de las líneas del logo */
+.juriscope-logo-container svg g {
+  stroke: var(--brand-accent);
+}
+
+/* Texto "JURISCOPE" */
+.juriscope-text {
+  font-family: var(--font-family-headings, 'Arial', sans-serif);
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--brand-accent);
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
+  margin-bottom: 20px;
+}
+
+/* --- TITULO Y DESCRIPCIÓN --- */
+.auth-panel-welcome h1 {
+  color: #fff;
+  font-size: var(--font-size-h1, 2rem);
+  max-width: 450px;
+  margin: 0 auto 25px auto;
+}
+
+.auth-panel-welcome p {
+  color: #fff;
+  font-size: 1.15rem;
+  line-height: 1.7;
+  opacity: 0.9;
+  max-width: 480px;
+  margin: 0 auto;
+  text-align: justify;
+}
+
+/* Panel del Formulario (Derecha) */
+.auth-panel-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 20px;
+  background-color: var(--color-fondo);
+}
+
+/* Tarjeta Blanca del Formulario */
+.form-card {
+  width: 100%;
+  max-width: 500px;
+  padding: 50px; 
+  background-color: var(--color-tarjeta); 
+  border-radius: 20px; /* Bordes más redondeados */
+  border: 1px solid var(--color-borde);
+  box-shadow: var(--shadow-sm); /* Sombra base */
+  transition: box-shadow var(--duration-normal) var(--easing-standard), transform var(--duration-normal) var(--easing-standard);
+}
+.form-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.form-card h2 {
+  font-size: var(--font-size-h2);
+  color: var(--color-texto-principal);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* 5. Estilos de Formulario (Comunes) */
+.form-group {
+  margin-bottom: 25px; 
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+.form-label {
+  font-size: var(--font-size-label);
+  font-weight: 600;
+  color: var(--color-texto-secundario);
+}
+
+.form-input,
+.form-select {
+  height: 52px;
+  font-size: var(--font-size-input);
+  padding: 14px 18px;
+  border: 1px solid var(--color-borde);
+  border-radius: 10px;
+  color: var(--color-texto-principal);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  width: 100%; 
+  box-sizing: border-box; 
+}
+
+.form-input::placeholder { color: var(--color-texto-secundario); opacity: 0.7; }
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--color-primario-oscuro);
+  box-shadow: 0 0 0 4px rgba(26, 43, 69, 0.1);
+}
+
+/* Botones */
+.form-button {
+  font-family: var(--font-family-cuerpo);
+  font-size: var(--font-size-button);
+  font-weight: 700;
+  padding: 15px 20px;
+  background-color: var(--brand-accent);
+  border: none;
+  border-radius: 10px;
+  color: var(--brand-accent-text);
+  cursor: pointer;
+  transition: background-color var(--duration-normal) var(--easing-standard), box-shadow var(--duration-normal) var(--easing-standard), transform var(--duration-normal) var(--easing-standard);
+  width: 100%; /* Ocupa todo el ancho disponible por defecto */
+}
+.form-button:hover:not(:disabled) { 
+  background-color: var(--color-acento-hover); 
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+.form-button:disabled {
+  background-color: var(--color-borde);
+  color: var(--color-texto-secundario);
+  cursor: not-allowed; 
+}
+
+.form-links {
+  text-align: center;
+  font-size: var(--font-size-label);
+  margin-top: 35px;
+}
+.form-links p { color: var(--color-texto-secundario); margin-bottom: 10px; }
+/* Mejor contraste para enlaces del formulario de login */
+.form-links a {
+  color: var(--color-texto-principal); /* color más oscuro para mejor contraste */
+  text-decoration: none;
+  font-weight: 600; /* más legible */
+}
+.form-links a:hover,
+.form-links a:focus {
+  text-decoration: underline;
+  outline: none;
+}
+/* Enlace de "Olvidaste tu contraseña" (más contraste, pero neutro) */
+.form-links .link-forgot {
+  color: var(--color-texto-principal);
+  font-weight: 600;
+}
+/* Enlace de registro: acento dorado para resaltar como acción secundaria */
+.form-links .link-register {
+  color: var(--brand-accent);
+  font-weight: 700;
+}
+.form-links .link-register:hover,
+.form-links .link-register:focus {
+  color: var(--brand-accent-hover);
+  text-decoration: underline;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablets y menores */
+@media (max-width: 1024px) {
+  .auth-container {
+    grid-template-columns: 1fr;
+  }
+  .auth-panel-welcome {
+    padding: 60px 40px;
+    min-height: 40vh;
+  }
+  .auth-panel-welcome h1 {
+    font-size: 1.75rem;
+  }
+  .auth-panel-welcome p {
+    font-size: 1.05rem;
+  }
+  .form-card {
+    padding: 40px;
+  }
+}
+
+/* Móviles */
+@media (max-width: 768px) {
+  .auth-panel-welcome {
+    padding: 40px 30px;
+    min-height: 35vh;
+  }
+  .juriscope-logo-container svg {
+    width: 120px;
+  }
+  .juriscope-text {
+    font-size: 1.5rem;
+  }
+  .auth-panel-welcome h1 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  .auth-panel-welcome p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  .auth-panel-form {
+    padding: 30px 20px;
+  }
+  .form-card {
+    padding: 30px 25px;
+  }
+  .form-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+  }
+  .form-group {
+    margin-bottom: 20px;
+  }
+  .step-navigation {
+    flex-direction: column;
+  }
+  .step-navigation button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-panel-welcome {
+    padding: 30px 20px;
+    min-height: 30vh;
+  }
+  .juriscope-logo-container svg {
+    width: 100px;
+  }
+  .juriscope-text {
+    font-size: 1.3rem;
+  }
+  .auth-panel-welcome h1 {
+    font-size: 1.3rem;
+  }
+  .auth-panel-welcome p {
+    font-size: 0.95rem;
+  }
+  .form-card {
+    padding: 25px 20px;
+  }
+  .form-input,
+  .form-select {
+    height: 48px;
+    font-size: 16px;
+  }
+  .form-button {
+    padding: 13px 18px;
+  }
+}
+
+.form-error-message {
+  font-size: var(--font-size-label); 
+  color: var(--color-error);
+  text-align: center;
+  background-color: rgba(220, 53, 69, 0.08);
+  padding: 12px 15px; 
+  border-radius: 8px;
+  border: 1px solid rgba(220, 53, 69, 0.2);
+  margin-bottom: 25px; 
+}
+
+/* --- ESTILOS SÓLO PARA REGISTRO pasxitos --- */
+.multi-step-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.form-step {
+  display: flex;
+  flex-direction: column;
+}
+.form-step h3 {
+  font-size: 1.3em; 
+  color: #555;     
+  margin-bottom: 18px; 
+  text-align: center; 
+  width: 100%;
+}
+
+/* Indicador de paso */
+.step-indicator {
+  font-family: var(--font-family-cuerpo);
+  font-size: var(--font-size-label);
+  font-weight: 600;
+  color: var(--color-texto-secundario);
+  text-align: center;
+  margin-bottom: 30px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--color-borde);
+}
+
+/* Navegación de pasos*/
+.step-navigation {
+  display: flex;
+  justify-content: space-between; 
+  margin-top: 20px;
+  gap: 20px; 
+}
+
+.step-navigation > :only-child {
+  margin-left: auto; 
+}
+/* Botón 'Anterior' con estilo secundario */
+.step-navigation .button-secondary {
+  background-color: var(--color-tarjeta);
+  color: var(--brand-primary);
+  border: 1px solid var(--color-borde);
+}
+.step-navigation .button-secondary:hover:not(:disabled) {
+  background-color: var(--color-fondo); 
+  border-color: var(--color-texto-secundario);
+  transform: translateY(-1px);
+}
+
+.form-select { 
+  -webkit-appearance: none; -moz-appearance: none; appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236C757D%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-13%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2013l128%20128c3.5%203.5%207.8%205.4%2013%205.4s9.4-1.8%2013-5.4L287%2095c3.5%203.5%205.4-7.8%205.4-13%200-5-1.8-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat; background-position: right 15px top 50%; background-size: 0.65em auto; padding-right: 30px;
+}
+
+/* --- PANTALLA DE ÉXITO --- */
+/* Contenedor principal de éxito: Centrado */
+.success-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 20px;
+  min-height: calc(100vh - 100px); 
+  width: 100%; 
+}
+
+/* Icono de éxito (el check) */
+.success-message .success-icon {
+  width: 80px;
+  height: 80px;
+  background-color: var(--brand-accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand-primary);
+  font-size: 40px;
+  font-weight: bold;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+.success-message .success-icon svg {
+  width: 40px;
+  height: 40px;
+  stroke: var(--brand-primary); 
+  stroke-width: 4;
+}
+
+/* Título (¡Registro Exitoso!) */
+.success-message h2 {
+  font-size: var(--font-size-h2);
+  color: var(--color-texto-principal);
+  margin-bottom: 0; 
+}
+
+/* Párrafo de descripción */
+.success-message p {
+  font-size: 1rem;
+  color: var(--color-texto-secundario);
+  max-width: 300px; 
+  line-height: 1.5;
+}
+
+/* Botón (Ir a Iniciar Sesión) */
+.success-message .form-button {
+  margin-top: 20px;
+}
+
+.auth-panel-form.success {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-card.success-card {
+    max-width: 450px; 
+    padding: 40px; 
+    text-align: center; 
+}
+
+body.modal-open {
+    overflow: hidden !important; 
+}
+
+@media (min-width: 992px) { 
+  .auth-container {
+    grid-template-columns: 450px 1fr; 
+  }
+  .auth-panel-welcome { 
+    display: flex; 
+  }
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid var(--color-borde);
+  border-radius: 10px;
+  padding: 0 18px; 
+  transition: all 0.2s ease-in-out;
+  height: 52px;
+  box-sizing: border-box;
+}
+
+.input-wrapper:focus-within {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 4px rgba(26, 43, 69, 0.1);
+}
+
+/* Botón del ojo */
+.password-toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin-left: 0.4rem;
+  transition: color 0.2s ease;
+}
+.password-toggle-btn:hover {
+  color: var(--brand-accent);
+}
+.password-toggle-btn svg {
+  width: 22px;
+  height: 22px;
+}
+.input-icon {
+  color: #888;
+  margin-right: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+.input-wrapper:focus-within .input-icon {
+  color: var(--brand-primary);
+}
+.input-wrapper input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: var(--font-size-input);
+  color: var(--color-texto-principal);
+  height: 100%;
+}
+.input-wrapper input:focus {
+  outline: none !important;
+  box-shadow: none !important; 
+}
+.form-input,
+.input-wrapper input {
+  font-family: inherit;
+  font-size: var(--font-size-input);
+}
+
+.form-group label {
+  margin-bottom: 0.3rem;
+  display: block;
+  font-weight: 500;
+  color: var(--color-texto-principal);
+}
+
+/* --- ESTILOS DATEPICKER --- */
+/* Ya no se necesitan !important porque .form-input ya tiene width: 100% */
+.datepicker-wrapper {
+  width: 100%; 
+}
+.react-datepicker__input-container {
+  width: 100%;
+}
+.form-input.react-datepicker-ignore-onclickoutside {
+  width: 100%;
+}
+
+/* Estilos del calendario */
+.react-datepicker {
+  border: 1px solid var(--color-borde);
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--color-tarjeta);
+  overflow: hidden;
+  width: 280px;
+}
+.react-datepicker__header {
+  background: transparent;
+  border: none;
+  text-align: center;
+  padding: 6px 0;
+}
+.react-datepicker__day {
+  color: var(--color-texto-cuerpo);
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+.react-datepicker__day:hover {
+  background-color: rgba(212, 175, 55, 0.15);
+}
+.react-datepicker__day--today {
+  border: 1px solid var(--brand-accent);
+}
+.react-datepicker__day--selected {
+  background-color: var(--brand-accent);
+  color: #fff;
+  font-weight: 600;
+}
+.react-datepicker__triangle {
+  display: none;
+}
+
+/* --- ESTILOS PARA VISTA DE SELECCIÓN MES/AÑO --- */
+.react-datepicker__month-container,
+.react-datepicker__month {
+    width: 100%;
+}
+.react-datepicker__month-text,
+.react-datepicker__year-text {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    padding: 8px 0;
+    margin: 4px 0;
+    border-radius: 8px;
+    font-weight: 600;
+    color: var(--color-texto-cuerpo);
+    transition: background-color 0.2s ease, color 0.2s ease;
+    cursor: pointer;
+}
+.react-datepicker__month-text:hover,
+.react-datepicker__year-text:hover {
+    background-color: rgba(212, 175, 55, 0.15);
+}
+.react-datepicker__month-text--selected,
+.react-datepicker__year-text--selected {
+    background-color: var(--brand-accent) !important;
+    color: #fff !important;
+    font-weight: 700;
+}

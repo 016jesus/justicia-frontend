@@ -1,0 +1,137 @@
+﻿.sidebar {
+  background-color: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  padding-top: 24px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-x: hidden;
+  z-index: 1000;
+  box-shadow: 4px 0 24px rgba(0,0,0,0.15);
+}
+
+.sidebar.open { width: 260px; }
+.sidebar.closed { width: 80px; }
+
+.menuHeader {
+  padding: 0 24px 32px 24px;
+  white-space: nowrap;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  margin-bottom: 16px;
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0 16px; /* Un poco más de aire lateral */
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.linkButton {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  color: var(--sidebar-text);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.linkButton:hover {
+  color: #FFFFFF;
+  background-color: var(--sidebar-hover);
+}
+
+/* ESTADO ACTIVO (Línea dorada) */
+.menu li.active .linkButton {
+  background: var(--nav-active-bg);
+  color: var(--nav-active-text);
+  font-weight: 600;
+}
+
+.menu li.active .linkButton::before {
+  content: '';
+  position: absolute;
+  left: -16px; /* Pegado al borde del sidebar */
+  top: 6px;
+  bottom: 6px;
+  width: 4px;
+  background-color: var(--nav-active-border);
+  border-radius: 0 4px 4px 0;
+  box-shadow: 0 0 8px var(--brand-accent);
+}
+
+.icon {
+  font-size: 1.25rem;
+  min-width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.text {
+  opacity: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: opacity 0.2s ease, width 0.2s ease;
+}
+
+.sidebar.closed .text {
+  opacity: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .sidebar.open { width: 240px; }
+}
+
+/* Móviles */
+@media (max-width: 768px) {
+  .sidebar { 
+    position: fixed; 
+    height: 100vh;
+    height: 100dvh;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.3);
+    z-index: 9999;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .sidebar.open { 
+    width: 280px;
+    transform: translateX(0);
+  }
+  .sidebar.closed { 
+    width: 280px;
+    transform: translateX(-100%);
+  }
+  .menuHeader { padding: 0 20px 24px 20px; }
+  .menuHeader h3 { font-size: 1.1rem; }
+  .linkButton { 
+    padding: 14px 16px; 
+    gap: 12px; 
+    font-size: 1rem;
+  }
+  .icon { font-size: 1.3rem; }
+}
+
+@media (max-width: 480px) {
+  .sidebar.open { width: 260px; }
+  .linkButton { padding: 12px 14px; }
+}
