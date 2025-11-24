@@ -1,7 +1,13 @@
 import axios from 'axios';
 
+// Normalizar la URL base eliminando trailing slash
+const normalizeUrl = (url) => {
+  if (!url) return 'http://ec2-18-218-222-67.us-east-2.compute.amazonaws.com:8080';
+  return url.replace(/\/+$/, ''); // Eliminar uno o más slashes al final
+};
+
 const apiClient = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'https://proyecto-justiconsulta.onrender.com',
+  baseURL: normalizeUrl(process.env.REACT_APP_API_URL),
   headers: {
     'Content-Type': 'application/json',
     'X-API-KEY': 'APP-CLIENT-a20ceb8b-b6c3-4620-a560-45c39746a30c' 
@@ -47,23 +53,29 @@ apiClient.interceptors.request.use(
       }
     }
 
-    console.log('Enviando request a:', config.url);
-    console.log('Headers:', config.headers);
+    // Solo en desarrollo
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Enviando request a:', config.url);
+      console.log('Headers:', config.headers);
+    }
     return config;
   },
   (error) => {
-    console.error('Error en request:', error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error en request:', error);
+    }
     return Promise.reject(error);
   }
 );
 
 apiClient.interceptors.response.use(
   (response) => {
-    console.log('Response exitoso:', response.status);
     return response;
   },
   (error) => {
-    console.error('Error en response:', error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error en response:', error);
+    }
     return Promise.reject(error);
   }
 );

@@ -61,8 +61,6 @@ export const AuthProvider = ({ children }) => {
     setError(null);
     
     try {
-      console.log('Enviando credenciales:', credentials);
-      
       const responseData = await loginAPI(credentials);
       const receivedToken = responseData.token;
       
