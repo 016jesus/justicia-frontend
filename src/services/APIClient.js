@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Normalizar la URL base eliminando trailing slash
 const normalizeUrl = (url) => {
-  if (!url) return 'http://ec2-18-218-222-67.us-east-2.compute.amazonaws.com:8080';
+  if (!url) return process.env.REACT_APP_API_URL;
   return url.replace(/\/+$/, ''); // Eliminar uno o más slashes al final
 };
 
