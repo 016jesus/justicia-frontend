@@ -9,6 +9,7 @@ import {
   ResponsiveContainer,
   Cell
 } from 'recharts';
+import styles from './ActivityChart.module.css';
 
 /* -------------------------
    🔧 Normalizador de Fechas
@@ -16,13 +17,8 @@ import {
 
 function normalizarFecha(fechaStr) {
   if (!fechaStr) return null;
+  if (!isNaN(Date.parse(fechaStr))) return fechaStr;
 
-  // Si ya es ISO válido
-  if (!isNaN(Date.parse(fechaStr))) {
-    return fechaStr;
-  }
-
-  // Intentar formato DD/MM/YYYY
   const partes = fechaStr.split('/');
   if (partes.length === 3) {
     const [dd, mm, yyyy] = partes;
@@ -31,7 +27,6 @@ function normalizarFecha(fechaStr) {
     }
   }
 
-  // Intentar formato DD-MM-YYYY
   const partes2 = fechaStr.split('-');
   if (partes2.length === 3) {
     const [dd, mm, yyyy] = partes2;
@@ -44,6 +39,27 @@ function normalizarFecha(fechaStr) {
 }
 
 /* -------------------------
+   🎨 Tooltip Personalizado
+ --------------------------*/
+const CustomTooltip = ({ active, payload }) => {
+  if (!active || !payload || !payload.length) return null;
+
+  const data = payload[0].payload;
+  
+  return (
+    <div className={styles.tooltip}>
+      <div className={styles.tooltipTitle}>{data.mes}</div>
+      <div className={styles.tooltipValue}>
+        <strong>{data.cantidad}</strong> actuación{data.cantidad !== 1 ? 'es' : ''}
+      </div>
+      <div className={styles.tooltipHint}>
+        💡 Clic para ver detalles
+      </div>
+    </div>
+  );
+};
+
+/* -------------------------
    📦 Componente ActivityChart
  --------------------------*/
 
@@ -52,6 +68,7 @@ const ActivityChart = ({ actuaciones }) => {
   const [selectedMonth, setSelectedMonth] = useState(null);
   const [monthActions, setMonthActions] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [hoveredBar, setHoveredBar] = useState(null);
 
   useEffect(() => {
     if (!actuaciones || actuaciones.length === 0) {
@@ -59,25 +76,13 @@ const ActivityChart = ({ actuaciones }) => {
       return;
     }
 
-    /* -------------------------
-       1️⃣ Convertir y normalizar fechas
-     --------------------------*/
     const fechasProcesadas = actuaciones
       .map((a) => {
-        let rawDate =
-          a.fechaActuacion ||
-          a.fechaRegistro ||
-          a.date ||
-          a.fecha ||
-          a.fchActuacion;
-
+        let rawDate = a.fechaActuacion || a.fechaRegistro || a.date || a.fecha || a.fchActuacion;
         const fechaISO = normalizarFecha(rawDate);
-
         if (!fechaISO) return null;
-
         const fecha = new Date(fechaISO);
         if (isNaN(fecha.getTime())) return null;
-
         return fecha;
       })
       .filter(Boolean);
@@ -87,9 +92,6 @@ const ActivityChart = ({ actuaciones }) => {
       return;
     }
 
-    /* -------------------------
-       2️⃣ Agrupar por mes
-     --------------------------*/
     const mapaMeses = {};
     const accionesPorMes = {};
 
@@ -97,9 +99,7 @@ const ActivityChart = ({ actuaciones }) => {
       const fecha = fechasProcesadas[idx];
       if (!fecha) return;
 
-      const key = `${fecha.getFullYear()}-${String(
-        fecha.getMonth() + 1
-      ).padStart(2, '0')}`;
+      const key = `${fecha.getFullYear()}-${String(fecha.getMonth() + 1).padStart(2, '0')}`;
 
       if (!mapaMeses[key]) {
         mapaMeses[key] = 0;
@@ -109,9 +109,6 @@ const ActivityChart = ({ actuaciones }) => {
       accionesPorMes[key].push(accion);
     });
 
-    /* -------------------------
-       3️⃣ Generar datos para Recharts
-     --------------------------*/
     const datosGrafica = Object.entries(mapaMeses)
       .map(([mes, cantidad]) => ({
         mes,
@@ -137,177 +134,117 @@ const ActivityChart = ({ actuaciones }) => {
     setMonthActions([]);
   }, []);
 
-  /* -------------------------
-     4️⃣ Si no hay datos → mensaje vacío
-   --------------------------*/
   if (data.length === 0) {
     return (
-      <div
-        style={{
-          width: '100%',
-          height: '200px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          color: '#666'
-        }}
-      >
-        Sin actividad registrada.
+      <div className={styles.chartCard}>
+        <div className={styles.header}>
+          <h3 className={styles.title}>Actividad del Proceso</h3>
+          <p className={styles.subtitle}>Distribución mensual de actuaciones</p>
+        </div>
+        <div className={styles.emptyState}>
+          <span style={{ fontSize: '2.5rem', opacity: 0.3 }}>📊</span>
+          <p>Sin actividad registrada</p>
+        </div>
       </div>
     );
   }
 
-  /* -------------------------
-     5️⃣ Render de la gráfica
-   --------------------------*/
   return (
     <>
-      <div style={{ 
-        width: '100%',
-        height: '320px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: '0'
-      }}>
-        <div style={{ width: '95%', height: '100%' }}>
+      <div className={styles.chartCard}>
+        <div className={styles.header}>
+          <h3 className={styles.title}>Actividad del Proceso</h3>
+          <p className={styles.subtitle}>
+            {data.length} meses con actividad • Total: {data.reduce((sum, d) => sum + d.cantidad, 0)} actuaciones
+          </p>
+        </div>
+
+        <div className={styles.chartWrapper}>
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={data} margin={{ top: 10, right: 15, left: 0, bottom: 50 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-            <XAxis 
-              dataKey="mes" 
-              tick={{ fontSize: 11 }}
-              angle={-45}
-              textAnchor="end"
-              height={60}
-            />
-            <YAxis 
-              allowDecimals={false}
-              tick={{ fontSize: 12 }}
-              tickMargin={8}
-            />
-            <Tooltip 
-              contentStyle={{ 
-                backgroundColor: '#fff', 
-                border: '1px solid #e5e7eb',
-                borderRadius: '8px',
-                padding: '8px 12px'
-              }}
-              cursor={{ fill: 'rgba(212, 175, 55, 0.1)' }}
-            />
-            <Bar 
-              dataKey="cantidad" 
-              radius={[6, 6, 0, 0]}
-              onClick={handleBarClick}
-              style={{ cursor: 'pointer' }}
+            <BarChart 
+              data={data} 
+              margin={{ top: 10, right: 20, left: 0, bottom: 50 }}
             >
-              {data.map((entry, index) => (
-                <Cell 
-                  key={`cell-${index}`}
-                  fill={selectedMonth === entry.mes ? 'var(--brand-secondary, #1A2B45)' : 'var(--brand-primary, #D4AF37)'}
-                />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+              <CartesianGrid 
+                strokeDasharray="3 3" 
+                stroke="var(--color-borde)" 
+                opacity={0.3}
+              />
+              <XAxis 
+                dataKey="mes" 
+                tick={{ 
+                  fontSize: 11, 
+                  fill: 'var(--color-texto-secundario)' 
+                }}
+                stroke="var(--color-borde)"
+                angle={-45}
+                textAnchor="end"
+                height={60}
+              />
+              <YAxis 
+                allowDecimals={false}
+                tick={{ 
+                  fontSize: 12, 
+                  fill: 'var(--color-texto-secundario)' 
+                }}
+                stroke="var(--color-borde)"
+                tickMargin={8}
+              />
+              <Tooltip content={<CustomTooltip />} />
+              <Bar 
+                dataKey="cantidad" 
+                radius={[8, 8, 0, 0]}
+                onClick={handleBarClick}
+                onMouseEnter={(_, index) => setHoveredBar(index)}
+                onMouseLeave={() => setHoveredBar(null)}
+                style={{ cursor: 'pointer' }}
+                animationDuration={800}
+                animationEasing="ease-out"
+              >
+                {data.map((entry, index) => (
+                  <Cell 
+                    key={`cell-${index}`}
+                    fill={
+                      selectedMonth === entry.mes 
+                        ? 'var(--brand-primary)' 
+                        : hoveredBar === index
+                        ? 'var(--brand-accent)'
+                        : 'var(--brand-accent-hover)'
+                    }
+                    opacity={hoveredBar === null || hoveredBar === index ? 1 : 0.6}
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       </div>
 
-      {/* Modal de actuaciones del mes */}
+      {/* Modal mejorado */}
       {showModal && (
-        <div 
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.6)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 9999,
-            padding: '20px'
-          }}
-          onClick={closeModal}
-        >
-          <div 
-            style={{
-              backgroundColor: '#fff',
-              borderRadius: '12px',
-              padding: '24px',
-              maxWidth: '700px',
-              width: '100%',
-              maxHeight: '80vh',
-              overflowY: 'auto',
-              boxShadow: '0 10px 40px rgba(0,0,0,0.2)',
-              position: 'relative'
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div style={{ 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              alignItems: 'center',
-              marginBottom: '20px',
-              borderBottom: '2px solid #e5e7eb',
-              paddingBottom: '12px'
-            }}>
-              <h3 style={{ 
-                margin: 0, 
-                fontSize: '20px',
-                color: 'var(--brand-secondary, #1A2B45)'
-              }}>
-                Actuaciones de {selectedMonth}
-              </h3>
-              <button
-                onClick={closeModal}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  fontSize: '24px',
-                  cursor: 'pointer',
-                  color: '#6B7280',
-                  padding: '0 8px',
-                  lineHeight: 1
-                }}
-                title="Cerrar"
-              >
-                ×
+        <div className={styles.modalOverlay} onClick={closeModal}>
+          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <div>
+                <h3 className={styles.modalTitle}>
+                  📅 Actuaciones de {selectedMonth}
+                </h3>
+                <p className={styles.modalSubtitle}>
+                  Total: {monthActions.length} actuación{monthActions.length !== 1 ? 'es' : ''}
+                </p>
+              </div>
+              <button onClick={closeModal} className={styles.modalClose}>
+                ✕
               </button>
             </div>
 
-            <div style={{ 
-              fontSize: '14px',
-              color: '#6B7280',
-              marginBottom: '16px'
-            }}>
-              Total: {monthActions.length} actuación(es)
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div className={styles.modalBody}>
               {monthActions.map((accion, idx) => (
-                <div 
-                  key={idx}
-                  style={{
-                    padding: '14px',
-                    backgroundColor: '#F9FAFB',
-                    borderRadius: '8px',
-                    border: '1px solid #E5E7EB'
-                  }}
-                >
-                  <div style={{ 
-                    fontWeight: 600, 
-                    marginBottom: '6px',
-                    color: 'var(--brand-secondary, #1A2B45)'
-                  }}>
+                <div key={idx} className={styles.actionCard}>
+                  <div className={styles.actionTitle}>
                     {accion.actuacion || 'Actuación sin título'}
                   </div>
-                  <div style={{ 
-                    fontSize: '13px', 
-                    color: '#6B7280',
-                    marginBottom: '8px'
-                  }}>
+                  <div className={styles.actionDate}>
                     {(() => {
                       const rawDate = accion.fechaActuacion || accion.fechaRegistro || accion.date || accion.fecha;
                       if (!rawDate) return 'Fecha no disponible';
@@ -320,11 +257,7 @@ const ActivityChart = ({ actuaciones }) => {
                     })()}
                   </div>
                   {(accion.anotacion || accion.descripcion) && (
-                    <div style={{ 
-                      fontSize: '14px',
-                      lineHeight: '1.5',
-                      color: '#374151'
-                    }}>
+                    <div className={styles.actionDescription}>
                       {accion.anotacion || accion.descripcion}
                     </div>
                   )}

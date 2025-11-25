@@ -1,0 +1,375 @@
+﻿/* Botón Flotante */
+.floatingButton {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--brand-accent);
+  color: white;
+  border: none;
+  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.35);
+  cursor: pointer;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 9999;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 8px 24px rgba(217, 119, 6, 0.35);
+  }
+  50% {
+    box-shadow: 0 8px 32px rgba(217, 119, 6, 0.55);
+  }
+}
+
+.floatingButton:hover {
+  transform: scale(1.1);
+  box-shadow: 0 12px 32px rgba(217, 119, 6, 0.45);
+  animation: none;
+}
+
+.floatingButton:active {
+  transform: scale(0.95);
+}
+
+/* Panel de Opciones */
+.panel {
+  position: fixed;
+  bottom: 92px;
+  right: 24px;
+  width: 320px;
+  max-height: calc(100vh - 120px); /* ✅ Altura máxima para evitar salirse */
+  background: var(--color-tarjeta);
+  border-radius: 16px;
+  box-shadow: 0 16px 48px rgba(15, 23, 42, 0.2);
+  border: 1px solid var(--color-borde);
+  z-index: 9998;
+  animation: slideInUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column; /* ✅ Para que el scroll funcione bien */
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.panelHeader {
+  padding: 20px;
+  background: linear-gradient(135deg, var(--brand-primary), var(--brand-primary-light));
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0; /* ✅ No se encoge */
+}
+
+/* ✅ NUEVO: Contenedor con scroll para las secciones */
+.panelBody {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.panelBody::-webkit-scrollbar {
+  width: 6px;
+}
+
+.panelBody::-webkit-scrollbar-track {
+  background: var(--color-fondo);
+}
+
+.panelBody::-webkit-scrollbar-thumb {
+  background: var(--color-borde);
+  border-radius: 3px;
+}
+
+.panelBody::-webkit-scrollbar-thumb:hover {
+  background: var(--color-texto-secundario);
+}
+
+.panelHeader h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.resetButton {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.resetButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.section {
+  padding: 20px;
+  border-bottom: 1px solid var(--color-borde-soft);
+}
+
+.section:last-of-type {
+  border-bottom: none;
+}
+
+.sectionLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--color-texto-principal);
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+}
+
+/* ✅ NUEVO: Toggle Switch para Dark Mode */
+.toggleButton {
+  width: 100%;
+  padding: 14px 18px;
+  border: 2px solid var(--color-borde);
+  background: var(--color-panel);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
+  color: var(--color-texto-principal);
+}
+
+.toggleButton:hover {
+  border-color: var(--brand-accent);
+  background: var(--brand-accent-bg);
+}
+
+.toggleButton.active {
+  border-color: var(--brand-accent);
+  background: linear-gradient(135deg, var(--brand-accent-bg), rgba(217, 119, 6, 0.1));
+}
+
+.toggleSlider {
+  width: 48px;
+  height: 24px;
+  background: var(--color-borde);
+  border-radius: 12px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.toggleButton.active .toggleSlider {
+  background: var(--brand-accent);
+}
+
+.toggleSlider::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggleButton.active .toggleSlider::after {
+  transform: translateX(24px);
+}
+
+.toggleLabel {
+  font-size: 0.9rem;
+}
+
+/* Botones de Tamaño de Fuente */
+.buttonGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.option {
+  padding: 12px;
+  border: 2px solid var(--color-borde);
+  background: var(--color-panel);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  position: relative;
+  color: var(--color-texto-principal);
+}
+
+.option:nth-child(1) { font-size: 0.85rem; }
+.option:nth-child(2) { font-size: 1rem; }
+.option:nth-child(3) { font-size: 1.15rem; }
+.option:nth-child(4) { font-size: 1.3rem; }
+
+.option:hover {
+  border-color: var(--brand-accent);
+  background: var(--brand-accent-bg);
+}
+
+.option.active {
+  border-color: var(--brand-accent);
+  background: var(--brand-accent);
+  color: white;
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25);
+}
+
+/* Botones de Modo de Color */
+.colorOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.colorOption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 2px solid var(--color-borde);
+  background: var(--color-panel);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: left;
+  color: var(--color-texto-principal);
+}
+
+.colorOption:hover:not(:disabled) {
+  border-color: var(--brand-accent);
+  background: var(--brand-accent-bg);
+}
+
+.colorOption.active {
+  border-color: var(--brand-accent);
+  background: var(--brand-accent-bg);
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.15);
+}
+
+.colorOption:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.colorCircle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+}
+
+.disabledNote {
+  display: block;
+  margin-top: 8px;
+  color: var(--color-texto-secundario);
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.footer {
+  padding: 14px 20px;
+  background: var(--color-fondo);
+  text-align: center;
+  flex-shrink: 0; /* ✅ No se encoge */
+  border-top: 1px solid var(--color-borde-soft);
+}
+
+.footer small {
+  color: var(--color-texto-secundario);
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .floatingButton {
+    bottom: 20px;
+    right: 20px;
+    width: 52px;
+    height: 52px;
+    font-size: 1.3rem;
+  }
+
+  .panel {
+    bottom: 84px;
+    right: 20px;
+    width: calc(100vw - 40px);
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 480px) {
+  .floatingButton {
+    bottom: 16px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+    font-size: 1.2rem;
+  }
+
+  .panel {
+    bottom: 76px;
+    right: 16px;
+    left: 16px;
+    width: auto;
+    max-width: none;
+  }
+
+  .panelHeader {
+    padding: 16px;
+  }
+
+  .panelHeader h3 {
+    font-size: 1rem;
+  }
+
+  .section {
+    padding: 16px;
+  }
+
+  .buttonGrid {
+    gap: 6px;
+  }
+
+  .option {
+    padding: 10px;
+  }
+}
