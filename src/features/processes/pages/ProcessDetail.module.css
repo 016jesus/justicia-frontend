@@ -24,6 +24,7 @@
   cursor: pointer;
   background: transparent;
   font-size: 0.95rem;
+  transition: color 0.2s ease;
 }
 
 .backButton button:hover {
@@ -42,8 +43,13 @@
   background-color: var(--color-tarjeta);
   border-radius: 12px;
   padding: 24px 30px;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
   border: 1px solid var(--color-borde);
+  transition: box-shadow 0.3s ease;
+}
+
+.summaryCard:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .radicacionTitle {
@@ -51,6 +57,8 @@
   font-size: 1.75rem;
   font-weight: 600;
   margin: 0;
+  font-family: 'Inter', monospace;
+  letter-spacing: -0.5px;
 }
 
 .radicacionSubtitle {
@@ -68,56 +76,39 @@
 
 .dataGrid div {
   font-size: 0.95rem;
+  line-height: 1.6;
 }
+
 .dataGrid div strong {
   color: var(--color-texto-secundario);
   font-weight: 600;
   margin-right: 8px;
 }
 
-/* --- JERARQUÍA DE BOTONES (COHERENTE) --- */
+/* Grupo de botones */
 .buttonGroup {
   display: flex;
   gap: 12px;
   margin-top: 20px;
 }
 
-.button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  border-radius: 8px;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.primary {
-  background-color: var(--brand-accent); /* Dorado */
-  color: var(--brand-accent-text); /* Azul Oscuro */
-}
-.primary:hover {
-  background-color: var(--brand-accent-hover);
-}
-
-.secondary {
-  background-color: transparent;
-  color: var(--text-primary); /* Azul Oscuro */
-  border: 1px solid var(--brand-primary); /* Borde Azul Oscuro */
-}
-.secondary:hover {
-  background-color: rgba(24, 41, 69, 0.05); /* Hover sutil */
-}
-
-
-/* --- ARREGLO DE PESTAÑAS (TABS) "PAILAS" --- */
+/* Contenedor de pestañas */
 .tabContainer {
   display: flex;
   gap: 24px;
   border-bottom: 2px solid var(--color-borde);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.tabContainer::-webkit-scrollbar {
+  height: 3px;
+}
+
+.tabContainer::-webkit-scrollbar-thumb {
+  background: var(--color-borde);
+  border-radius: 3px;
 }
 
 .tab {
@@ -131,7 +122,7 @@
   border-bottom: 3px solid transparent;
   white-space: nowrap;
   margin-bottom: -2px;
-  transition: color 0.2s ease, border-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .tab:hover {
@@ -139,8 +130,8 @@
 }
 
 .tabActive {
-  color: var(--brand-primary); /* Activa es AZUL */
-  border-bottom-color: var(--brand-primary); /* Línea AZUL */
+  color: var(--brand-primary);
+  border-bottom-color: var(--brand-primary);
 }
 
 /* La tarjeta que contiene el contenido de las pestañas */
@@ -148,19 +139,33 @@
   background-color: var(--color-tarjeta);
   border-radius: 12px;
   padding: 24px 30px;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
   border: 1px solid var(--color-borde);
 }
+
 .tabContentCard h3 {
   color: var(--brand-primary);
   margin-top: 0;
   margin-bottom: 16px;
+  font-size: 1.2rem;
+  font-weight: 700;
 }
 
 .dataGridFull {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px 20px;
+}
+
+.dataGridFull div {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.dataGridFull div strong {
+  color: var(--color-texto-secundario);
+  font-weight: 600;
+  margin-right: 8px;
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
@@ -171,16 +176,20 @@
     padding: 0 12px;
     gap: 20px;
   }
+  
   .summaryCard { 
     padding: 20px 24px; 
   }
+  
   .dataGrid { 
     grid-template-columns: 1fr; 
     gap: 10px; 
   }
+  
   .dataGridFull { 
     grid-template-columns: 1fr; 
   }
+  
   .tabContainer { 
     gap: 16px; 
   }
@@ -211,37 +220,45 @@
     padding: 18px 20px; 
     border-radius: 10px;
   }
+  
   .radicacionTitle { 
     font-size: 1.4rem; 
     word-break: break-word;
     line-height: 1.3;
   }
+  
   .radicacionSubtitle { 
     font-size: 0.9rem;
     margin-top: 6px;
   }
+  
   .dataGrid { 
     grid-template-columns: 1fr; 
     gap: 10px 16px;
     margin-top: 14px;
   }
+  
   .dataGrid div { 
     font-size: 0.9rem;
     line-height: 1.5;
   }
+  
   .dataGrid div strong {
     display: inline-block;
     min-width: 110px;
   }
+  
   .buttonGroup { 
     flex-direction: column; 
     margin-top: 16px;
     gap: 10px;
   }
-  .button { 
+  
+  .buttonGroup button { 
     width: 100%; 
     justify-content: center;
   }
+  
   .tabContainer { 
     gap: 0;
     overflow-x: auto;
@@ -251,38 +268,43 @@
     margin: 0 -8px;
     padding: 0 8px;
   }
+  
   .tabContainer::-webkit-scrollbar {
     height: 3px;
   }
+  
   .tabContainer::-webkit-scrollbar-thumb {
     background: var(--color-borde);
     border-radius: 3px;
   }
+  
   .tab { 
     padding: 10px 16px; 
     font-size: 0.9rem;
     min-width: fit-content;
     flex-shrink: 0;
   }
+  
   .tabContentCard { 
-    padding: 20px 0;
+    padding: 20px;
     border-radius: 10px;
   }
-  .tabContentCard h3 {
-    padding: 0 20px;
-  }
+  
   .tabContentCard h3 { 
     font-size: 1.15rem; 
     margin-bottom: 14px;
   }
+  
   .dataGridFull { 
     grid-template-columns: 1fr; 
     gap: 10px;
   }
+  
   .dataGridFull div {
     font-size: 0.9rem;
     line-height: 1.5;
   }
+  
   .dataGridFull div strong {
     display: inline-block;
     min-width: 100px;
@@ -304,43 +326,51 @@
     padding: 16px; 
     border-radius: 8px;
   }
+  
   .radicacionTitle { 
     font-size: 1.2rem; 
   }
+  
   .radicacionSubtitle {
     font-size: 0.85rem;
   }
+  
   .dataGrid div { 
     font-size: 0.85rem; 
   }
+  
   .dataGrid div strong {
     min-width: 95px;
     font-size: 0.8rem;
   }
+  
   .buttonGroup { 
     gap: 8px; 
   }
-  .button { 
+  
+  .buttonGroup button { 
     padding: 10px 16px; 
     font-size: 0.9rem;
   }
+  
   .tab { 
     padding: 10px 12px; 
     font-size: 0.85rem;
   }
+  
   .tabContentCard { 
-    padding: 16px 0;
+    padding: 16px;
     border-radius: 8px;
   }
-  .tabContentCard h3 {
-    padding: 0 16px;
-  }
+  
   .tabContentCard h3 { 
     font-size: 1.1rem; 
   }
+  
   .dataGridFull div {
     font-size: 0.85rem;
   }
+  
   .dataGridFull div strong {
     min-width: 85px;
     font-size: 0.8rem;

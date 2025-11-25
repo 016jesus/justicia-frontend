@@ -1,0 +1,85 @@
+﻿.breadcrumbs {
+  padding: 12px 0;
+  margin-bottom: 20px;
+}
+
+.breadcrumbList {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.9rem;
+}
+
+.breadcrumbItem {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumbLink {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-texto-secundario);
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.breadcrumbLink:hover {
+  color: var(--brand-accent);
+  background: var(--brand-accent-bg);
+}
+
+.breadcrumbCurrent {
+  color: var(--color-texto-principal);
+  font-weight: 600;
+  padding: 4px 8px;
+}
+
+.separator {
+  color: var(--color-texto-secundario);
+  font-size: 0.7rem;
+  opacity: 0.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .breadcrumbs {
+    padding: 10px 0;
+    margin-bottom: 16px;
+  }
+
+  .breadcrumbList {
+    font-size: 0.85rem;
+    gap: 6px;
+  }
+
+  .breadcrumbLink {
+    padding: 3px 6px;
+  }
+
+  .breadcrumbCurrent {
+    padding: 3px 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .breadcrumbList {
+    font-size: 0.8rem;
+  }
+
+  /* Truncar texto largo en móviles */
+  .breadcrumbLink,
+  .breadcrumbCurrent {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

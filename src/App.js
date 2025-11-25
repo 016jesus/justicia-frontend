@@ -1,5 +1,8 @@
-import { Routes, Route } from 'react-router-dom';
 import React, { Suspense, lazy } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from './context/ThemeContext';
+import AccessibilityButton from './components/AccessibilityButton/AccessibilityButton';
+import { Toaster } from 'react-hot-toast';
 
 // Lazy loading de páginas principales
 const LoginPage = lazy(() => import('./features/auth/Pages/LoginPage'));
@@ -13,40 +16,85 @@ const RecoveryPasswordPage = lazy(() => import('./features/auth/Pages/RecoveryPa
 const VerificationPasswordPage = lazy(() => import('./features/auth/Pages/VerificationPasswordPage'));
 const UpdatePasswordPage = lazy(() => import('./features/auth/Pages/UpdatePasswordPage'));
 
-// Loading fallback component
+// ✅ Skeleton Loading mejorado
 const PageLoader = () => (
   <div style={{
     display: 'flex',
-    justifyContent: 'center',
+    flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
     height: '100vh',
-    fontSize: '18px',
-    color: '#666'
+    gap: '20px',
+    background: 'var(--color-fondo)'
   }}>
-    Cargando...
+    <div style={{
+      width: '48px',
+      height: '48px',
+      border: '4px solid var(--color-borde)',
+      borderTop: '4px solid var(--brand-accent)',
+      borderRadius: '50%',
+      animation: 'spin 1s linear infinite'
+    }}></div>
+    <p style={{ 
+      color: 'var(--color-texto-secundario)', 
+      fontSize: '1rem',
+      fontWeight: 500
+    }}>
+      Cargando...
+    </p>
+    <style>{`
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    `}</style>
   </div>
 );
 
 function App() {
   return (
-    <div className="App">
-      <Suspense fallback={<PageLoader />}>
-        <Routes>
-          <Route path="/" element={<LoginPage />} />
-          <Route path="/registro" element={<RegisterPage />} />
-          <Route path="/consultas" element={<ProcessConsultationPage />} />
-          <Route path="/consultas/detalle/:idProceso" element={<ProcessDetailPage />} />
-          <Route path="/consultas/historial" element={<ProcessHistoryPage />} />
-          <Route path="/mis-procesos" element={<MyProcessesPage />} />
-          <Route path="/cargar" element={<CargarPage />} />
-          <Route path="/recuperar-contrasena" element={<RecoveryPasswordPage />} />
-          <Route path="/verificar-contrasena" element={<VerificationPasswordPage />} />
-          <Route path="/restablecer-contrasena" element={<UpdatePasswordPage />} />
-          
-        </Routes>
-      </Suspense>
-    </div>
+    <ThemeProvider>
+      <div className="App">
+        {/* ✅ Toast Notifications con configuración inline */}
+        <Toaster 
+          position="top-right"
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: 'var(--color-tarjeta)',
+              color: 'var(--color-texto-principal)',
+              border: '1px solid var(--color-borde)',
+              borderRadius: '12px',
+              padding: '16px 20px',
+              fontSize: '0.95rem',
+              fontWeight: '500',
+              boxShadow: '0 8px 24px rgba(15, 23, 42, 0.15)',
+              maxWidth: '400px'
+            }
+          }}
+        />
+
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<LoginPage />} />
+            <Route path="/registro" element={<RegisterPage />} />
+            <Route path="/consultas" element={<ProcessConsultationPage />} />
+            <Route path="/consultas/detalle/:idProceso" element={<ProcessDetailPage />} />
+            <Route path="/consultas/historial" element={<ProcessHistoryPage />} />
+            <Route path="/mis-procesos" element={<MyProcessesPage />} />
+            <Route path="/cargar" element={<CargarPage />} />
+            <Route path="/recuperar-contrasena" element={<RecoveryPasswordPage />} />
+            <Route path="/verificar-contrasena" element={<VerificationPasswordPage />} />
+            <Route path="/restablecer-contrasena" element={<UpdatePasswordPage />} />
+          </Routes>
+        </Suspense>
+
+        {/* ✅ Botón Flotante de Accesibilidad (global) */}
+        <AccessibilityButton />
+      </div>
+    </ThemeProvider>
   );
 }
 
 export default App;
+
+

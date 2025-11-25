@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaSearch } from 'react-icons/fa'; 
+import { FaSearch, FaHistory } from 'react-icons/fa'; 
 import DashboardLayout from '../components/DashboardLayout/DashboardLayout';
 import { cachedGet } from '../../../services/cachedApi';
 import LoadingSpinner from '../../../components/LoadingSpinner/LoadingSpinner';
@@ -36,110 +36,81 @@ const ProcessHistoryPage = () => {
 
   return (
     <DashboardLayout activeItem="historial">
-      {/* Contenedor fluido para aprovechar todo el ancho */}
       <div style={{ width: '100%' }}> 
         <div className={styles.headerSection}>
-          <h1>Historial de Consultas</h1>
-          <p style={{color: 'var(--color-texto-secundario)', fontSize: '1.05rem'}}>
-            Registro completo de tu actividad reciente en la plataforma.
+          <h1 className={styles.pageTitle}>
+            <FaHistory /> Historial de Consultas
+          </h1>
+          <p className={styles.pageSubtitle}>
+            Registro completo de tu actividad reciente en la plataforma
           </p>
         </div>
         
-        {loading && <LoadingSpinner text="Cargando historial..." />}
-        {error && <div style={{color: 'var(--color-error)'}}>{error}</div>}
+        {/* ✅ Skeleton Loading */}
+        {loading && (
+          <div className={styles.skeletonContainer}>
+            <div className="skeleton-block"></div>
+            <div className="skeleton-block"></div>
+            <div className="skeleton-block"></div>
+          </div>
+        )}
+        
+        {error && <div className="errorBox">{error}</div>}
 
         {!loading && !error && items.length === 0 && (
-           <div className="card" style={{textAlign: 'center', padding: 60}}>
-             <p style={{color: 'var(--color-texto-secundario)', fontSize: '1.1rem'}}>
-               No se encontraron consultas recientes.
-             </p>
+           <div className={styles.emptyState}>
+             <div className={styles.emptyIcon}>📋</div>
+             <p>No se encontraron consultas recientes</p>
+             <small>Realiza tu primera búsqueda para ver tu historial aquí</small>
            </div>
         )}
 
         {!loading && !error && items.length > 0 && (
           <div className={styles.historyCard}>
-            <div className={styles.tableContainer}>
-              <table className={styles.table}>
-                <thead>
-                  <tr className={styles.tr}>
-                    {/* Anchos sugeridos para distribuir mejor */}
-                    <th className={styles.th} style={{width: '31%'}}>Radicación Consultada</th>
-                    <th className={styles.th} style={{width: '34%'}}>Fecha y Hora</th>
-                    <th className={styles.th} style={{width: '22%', textAlign: 'right'}}>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {items.map((it, index) => {
-                    // Determinamos si fue encontrada o no (simulado con legalProcessId)
-                    const isFound = !!it.legalProcessId;
-                    
-                    return (
-                      <tr key={it.id || index} className={styles.tr}>
-                        <td className={styles.td}>
-                          <span style={{
-                            fontWeight: 600, 
-                            color: 'var(--brand-primary)', 
-                            fontFamily: 'Inter, monospace',
-                            fontSize: '1rem'
-                          }}>
-                             {it.radicacion || it.legalProcessId || 'Desconocido'}
-                          </span>
-                        </td>
-                        <td className={styles.td}>
-                          <span className={styles.dateText}>
-                            {it.date ? new Date(it.date).toLocaleString() : '-'}
-                          </span>
-                        </td>
-                        
-                        <td className={styles.td} style={{textAlign: 'right'}}>
-                           {isFound && (
-                             <button 
-                               className="btn btn-sm btn-secondary"
-                               onClick={() => navigate(`/consultas/detalle/${encodeURIComponent(it.legalProcessId)}`)}
-                               title="Ver expediente"
-                             >
-                               <FaSearch style={{marginRight: 6}}/> Ver
-                             </button>
-                           )}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+            {/* ✅ Tabla mejorada con CSS Grid */}
+            <div className={styles.tableGrid}>
+              {/* Header */}
+              <div className={styles.tableHeader}>
+                <div className={styles.colRadicacion}>Radicación Consultada</div>
+                <div className={styles.colFecha}>Fecha y Hora</div>
+                <div className={styles.colAcciones}>Acciones</div>
+              </div>
 
-            {/* Vista de cards para móvil */}
-            <div className={styles.mobileCards}>
+              {/* Filas */}
               {items.map((it, index) => {
                 const isFound = !!it.legalProcessId;
+                
                 return (
-                  <div key={it.id || index} className={styles.mobileCard}>
-                    <div className={styles.cardHeader}>
-                      <span className={styles.cardLabel}>Radicación</span>
-                      <span className={styles.cardRadicacion}>
+                  <div key={it.id || index} className={styles.tableRow}>
+                    <div className={styles.colRadicacion}>
+                      <span className={styles.radicacionText}>
                         {it.radicacion || it.legalProcessId || 'Desconocido'}
                       </span>
                     </div>
-                    <div className={styles.cardBody}>
-                      <div className={styles.cardRow}>
-                        <span className={styles.cardLabel}>Fecha y Hora</span>
-                        <span className={styles.cardValue}>
-                          {it.date ? new Date(it.date).toLocaleString() : '-'}
-                        </span>
-                      </div>
+                    
+                    <div className={styles.colFecha}>
+                      <span className={styles.dateText}>
+                        {it.date ? new Date(it.date).toLocaleString('es-ES', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: '2-digit',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        }) : '-'}
+                      </span>
                     </div>
-                    {isFound && (
-                      <div className={styles.cardActions}>
+                    
+                    <div className={styles.colAcciones}>
+                      {isFound && (
                         <button 
                           className="btn btn-sm btn-secondary"
                           onClick={() => navigate(`/consultas/detalle/${encodeURIComponent(it.legalProcessId)}`)}
-                          style={{width: '100%'}}
+                          title="Ver expediente"
                         >
-                          <FaSearch style={{marginRight: 6}}/> Ver Expediente
+                          <FaSearch style={{marginRight: 6}}/> Ver Detalle
                         </button>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                 );
               })}
@@ -152,7 +123,4 @@ const ProcessHistoryPage = () => {
 };
 
 export default ProcessHistoryPage;
-
-
-
 
