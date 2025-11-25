@@ -47,3 +47,22 @@ export const StepTwoSchema = z.object({
 
 // Esquema completo (para el submit final)
 export const FullRegistrationSchema = StepOneSchema.merge(StepTwoSchema);
+
+// Esquema simplificado para mobile (sin documentos)
+export const RegisterSchema = z.object({
+    firstName: NameSchema,
+    middleName: OptionalNameSchema,
+    firstLastName: NameSchema,
+    secondLastName: OptionalNameSchema,
+    email: EmailSchema,
+    password: PasswordSchema,
+    confirmPassword: PasswordSchema,
+}).superRefine(({ password, confirmPassword }, ctx) => {
+    if (password !== confirmPassword) {
+        ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['confirmPassword'], 
+            message: 'Las contraseñas no coinciden.',
+        });
+    }
+});

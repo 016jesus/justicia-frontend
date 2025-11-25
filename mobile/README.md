@@ -1,33 +1,146 @@
-# JustiConsulta Mobile App
+# 📱 JustiConsulta Mobile
 
-Esta es la versión móvil de JustiConsulta, construida con React Native y Expo.
+Aplicación móvil para consulta de procesos judiciales de Colombia.
 
-## Requisitos Previos
+## 🚀 Inicio Rápido
 
-- Node.js (versión 14 o superior)
-- npm o yarn
-- Expo CLI (se instala automáticamente)
-- Para iOS: Xcode (solo en Mac)
-- Para Android: Android Studio o dispositivo Android
+### Probar sin compilar APK (Recomendado)
 
-## Instalación
-
-1. Navega a la carpeta mobile:
-```bash
-cd mobile
-```
-
-2. Instala las dependencias:
-```bash
+```powershell
+# 1. Instalar dependencias
 npm install
+
+# 2. Iniciar servidor de desarrollo
+npm start
+
+# 3. Escanear QR con Expo Go
+#    - Descargar Expo Go desde Play Store o App Store
+#    - Escanear el QR que aparece en la terminal
 ```
 
-## Ejecución de la Aplicación
+📖 **Guía completa**: Ver [MOBILE_TESTING.md](./MOBILE_TESTING.md)
 
-### Usando Expo Go (Recomendado para desarrollo)
+---
 
-1. Instala Expo Go en tu dispositivo móvil:
-   - iOS: [App Store](https://apps.apple.com/app/expo-go/id982107779)
+## 📋 Requisitos
+
+- Node.js 14+
+- Expo Go (app móvil)
+- Red WiFi (PC y móvil en la misma red)
+
+---
+
+## 🎯 Funcionalidades
+
+### ✅ Implementado
+- Login con validación
+- Registro de usuarios
+- Navegación entre pantallas
+- Gestión de sesión (AsyncStorage)
+
+### 🔄 En Desarrollo  
+- Recuperación de contraseña
+- Consulta de procesos
+- Historial de consultas
+- Mis procesos asociados
+
+📖 **Guía de implementación**: Ver [IMPLEMENTATION_GUIDE.md](./IMPLEMENTATION_GUIDE.md)
+
+---
+
+## 🐛 Solución de Problemas
+
+### Error 403 al hacer login
+✅ Ya solucionado. El API_KEY se envía correctamente en todos los requests.
+
+Si persiste:
+1. Ver logs en la terminal
+2. Verificar conectividad: https://jesucripto.win
+3. Limpiar caché: `npx expo start --clear`
+
+📖 **Troubleshooting completo**: Ver [MOBILE_TESTING.md](./MOBILE_TESTING.md)
+
+---
+
+## 🎨 Identidad de Marca
+
+- **Primary**: #0F172A (Navy)
+- **Accent**: #D97706 (Gold)  
+- **Colores** aplicados en todos los componentes
+
+---
+
+## 📚 Documentación
+
+- [MOBILE_TESTING.md](./MOBILE_TESTING.md) - Guía de pruebas y debugging
+- [IMPLEMENTATION_GUIDE.md](./IMPLEMENTATION_GUIDE.md) - Plantillas para nuevas pantallas
+- [../ICONS_GUIDE.md](../ICONS_GUIDE.md) - Generar iconos de la app
+- [../MOBILE_SUMMARY.md](../MOBILE_SUMMARY.md) - Resumen completo del proyecto
+
+---
+
+## 🔧 Comandos Útiles
+
+```powershell
+npm start              # Iniciar servidor de desarrollo
+npm start --clear      # Iniciar limpiando caché
+npm start --tunnel     # Usar tunnel (diferentes redes)
+npm run android        # Abrir en emulador Android
+```
+
+---
+
+## 📱 Estructura del Proyecto
+
+```
+mobile/
+├── src/
+│   ├── features/
+│   │   ├── auth/           # Autenticación
+│   │   │   ├── screens/    # LoginScreen, RegisterScreen
+│   │   │   └── services/   # Validaciones Zod
+│   │   └── processes/      # Procesos judiciales
+│   │       └── screens/    # Consulta, Detalle, Historial
+│   ├── navigation/         # AppNavigator
+│   ├── context/            # AuthContext
+│   ├── services/           # APIClient
+│   └── config/             # constants.js
+├── assets/                 # Iconos y splash screen
+├── app.json               # Configuración Expo
+└── package.json
+```
+
+---
+
+## 🌐 API
+
+**Base URL**: `https://jesucripto.win`  
+**API Key**: Configurada en `src/config/constants.js`
+
+### Endpoints principales:
+- `POST /api/auth/login` - Iniciar sesión
+- `POST /api/auth/register` - Registrar usuario
+- `GET /api/processes/search` - Buscar proceso
+- `GET /api/history` - Historial de consultas
+
+---
+
+## 👥 Contribuir
+
+1. Revisar [IMPLEMENTATION_GUIDE.md](./IMPLEMENTATION_GUIDE.md)
+2. Usar colores de marca (navy/gold)
+3. Seguir estructura de componentes existentes
+4. Probar con Expo Go antes de commit
+
+---
+
+## 📄 Licencia
+
+Proyecto académico - Universidad de los Llanos
+
+---
+
+**Última actualización**: Noviembre 24, 2025
    - Android: [Google Play](https://play.google.com/store/apps/details?id=host.exp.exponent)
 
 2. Inicia el servidor de desarrollo:

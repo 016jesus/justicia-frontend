@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaSearch, FaHistory } from 'react-icons/fa'; 
 import DashboardLayout from '../components/DashboardLayout/DashboardLayout';
 import { cachedGet } from '../../../services/cachedApi';
+import LoadingSpinner from '../../../components/LoadingSpinner/LoadingSpinner';
 import styles from './ProcessHistoryPage.module.css'; 
 
 const ProcessHistoryPage = () => {

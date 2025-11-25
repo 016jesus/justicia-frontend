@@ -6,6 +6,7 @@ import { invalidateCacheByPrefix } from '../../../services/cachedApi';
 import styles from './CargarPage.module.css'; 
 
 import { FaCloudUploadAlt, FaFileExcel, FaFileCsv, FaTimes } from 'react-icons/fa';
+import InvalidProcessesModal from '../components/InvalidProcessesModal/InvalidProcessesModal';
 
 const CargarPage = () => {
   const [fileName, setFileName] = useState('');
@@ -16,6 +17,7 @@ const CargarPage = () => {
   const [parsing, setParsing] = useState(false);
   const [associating, setAssociating] = useState(false);
   const [showAllValid, setShowAllValid] = useState(false);
+  const [showInvalidModal, setShowInvalidModal] = useState(false);
   
   // Estado para el Drag & Drop visual
   const [dragActive, setDragActive] = useState(false);
@@ -245,9 +247,18 @@ const CargarPage = () => {
                 <span className={styles.statLabel}>Válidos</span>
                 <span className={styles.statValue} style={{color: 'var(--brand-primary)'}}>{counts.valid}</span>
               </div>
-              <div className={styles.statCard}>
+              <div className={styles.statCard} style={{position: 'relative'}}>
                 <span className={styles.statLabel}>Inválidos</span>
                 <span className={styles.statValue} style={{color: counts.invalid > 0 ? 'var(--color-error)' : 'inherit'}}>{counts.invalid}</span>
+                {counts.invalid > 0 && (
+                  <button 
+                    className={styles.viewInvalidButton}
+                    onClick={() => setShowInvalidModal(true)}
+                    title="Ver detalles de inválidos"
+                  >
+                    Ver Detalles
+                  </button>
+                )}
               </div>
               <div className={styles.statCard}>
                 <span className={styles.statLabel}>Procesados</span>
@@ -315,6 +326,13 @@ const CargarPage = () => {
           </>
         )}
       </div>
+
+      {/* Modal de Inválidos */}
+      <InvalidProcessesModal 
+        isOpen={showInvalidModal}
+        onClose={() => setShowInvalidModal(false)}
+        invalidItems={invalidItems}
+      />
     </DashboardLayout>
   );
 };

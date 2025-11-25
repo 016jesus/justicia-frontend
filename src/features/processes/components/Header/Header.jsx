@@ -3,6 +3,9 @@ import styles from './Header.module.css';
 import { FaBars, FaUserCircle, FaChevronDown, FaBell } from 'react-icons/fa';
 import { useAuth } from '../../../../context/AuthContext';
 import apiClient from '../../../../services/APIClient';
+import NotificationSimulatorModal from '../NotificationSimulator/NotificationSimulatorModal';
+import AllNotificationsModal from '../NotificationsList/AllNotificationsModal';
+import NotificationDetailModal from '../NotificationDetail/NotificationDetailModal';
 
 const Header = ({ toggleSidebar, isSidebarOpen }) => {
   const { user, logout } = useAuth();
@@ -12,6 +15,10 @@ const Header = ({ toggleSidebar, isSidebarOpen }) => {
   const [notifsOpen, setNotifsOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [notifsLoading, setNotifsLoading] = useState(false);
+  const [showSimulator, setShowSimulator] = useState(false);
+  const [showAllNotifications, setShowAllNotifications] = useState(false);
+  const [selectedNotification, setSelectedNotification] = useState(null);
+  const [showDetailModal, setShowDetailModal] = useState(false);
 
   const formatFullName = useCallback((u) => {
     if (!u) return 'Usuario';
@@ -117,8 +124,9 @@ const Header = ({ toggleSidebar, isSidebarOpen }) => {
                           key={n.notificationId} 
                           className={`${styles.notifItem} ${!n.isRead ? styles.notifItemUnread : ''}`}
                           onClick={() => {
-                            // Marcar como leída y navegar si es necesario
-                            console.log('Notification clicked:', n);
+                            setSelectedNotification(n);
+                            setShowDetailModal(true);
+                            setNotifsOpen(false);
                           }}
                         >
                           <div className={styles.notifContent}>
@@ -141,9 +149,31 @@ const Header = ({ toggleSidebar, isSidebarOpen }) => {
                   )}
                 </div>
                 
-                {!notifsLoading && notifications.length > 0 && (
+                {/* Footer con botones - siempre visible */}
+                {!notifsLoading && (
                   <div className={styles.notifFooter}>
-                    <button className={styles.footerButton}>Ver todas</button>
+                    {notifications.length > 0 && (
+                      <button 
+                        className={styles.footerButton}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setShowAllNotifications(true);
+                          setNotifsOpen(false);
+                        }}
+                      >
+                        Ver todas
+                      </button>
+                    )}
+                    <button 
+                      className={styles.simulatorButton}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowSimulator(true);
+                        setNotifsOpen(false);
+                      }}
+                    >
+                      Simular Notificación
+                    </button>
                   </div>
                 )}
               </div>
@@ -170,6 +200,38 @@ const Header = ({ toggleSidebar, isSidebarOpen }) => {
           </div>
         )}
       </div>
+
+      {/* Modal de Simulador */}
+      <NotificationSimulatorModal
+        isOpen={showSimulator}
+        onClose={() => setShowSimulator(false)}
+        onSuccess={async () => {
+          await fetchNotifications();
+        }}
+      />
+
+      {/* Modal de Todas las Notificaciones */}
+      <AllNotificationsModal
+        isOpen={showAllNotifications}
+        onClose={() => setShowAllNotifications(false)}
+        notifications={notifications}
+        onUpdate={async () => {
+          await fetchNotifications();
+        }}
+      />
+
+      {/* Modal de Detalle de Notificación */}
+      <NotificationDetailModal
+        isOpen={showDetailModal}
+        onClose={() => {
+          setShowDetailModal(false);
+          setSelectedNotification(null);
+        }}
+        notification={selectedNotification}
+        onMarkAsRead={async () => {
+          await fetchNotifications();
+        }}
+      />
     </header>
   );
 };

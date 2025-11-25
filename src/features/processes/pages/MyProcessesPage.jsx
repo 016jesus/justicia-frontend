@@ -4,6 +4,7 @@ import { FaEye, FaTrash } from 'react-icons/fa';
 import DashboardLayout from '../components/DashboardLayout/DashboardLayout';
 import { cachedGet, invalidateCacheByPrefix } from '../../../services/cachedApi';
 import apiClient from '../../../services/APIClient';
+import LoadingSpinner from '../../../components/LoadingSpinner/LoadingSpinner';
 import styles from './MyProcessesPage.module.css';
 
 const MyProcessesPage = () => {
@@ -58,7 +59,7 @@ const MyProcessesPage = () => {
             </p>
           </div>
 
-          {loading && <div className={styles.loadingMessage}>Cargando...</div>}
+          {loading && <LoadingSpinner text="Cargando tus procesos..." />}
           {error && <div className={styles.errorMessage}>{error}</div>}
 
           {!loading && !error && items.length > 0 && (

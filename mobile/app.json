@@ -1,14 +1,20 @@
 {
   "expo": {
-    "name": "JustiConsulta Mobile",
+    "name": "JustiConsulta",
     "slug": "justiconsulta-mobile",
     "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
     "platforms": [
       "ios",
       "android"
     ],
     "android": {
       "package": "com.justiconsulta.mobile"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.justiconsulta.mobile"
     },
     "extra": {
       "eas": {

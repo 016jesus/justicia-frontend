@@ -342,6 +342,7 @@
 
 .notifItemUnread:hover {
   background: #DBEAFE;
+  transform: translateX(4px);
 }
 
 .notifContent {
@@ -429,6 +430,7 @@
   padding: 6px 12px;
   border-radius: 6px;
   transition: all 0.2s ease;
+  flex: 1;
 }
 
 .footerButton:hover {

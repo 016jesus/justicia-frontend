@@ -7,17 +7,19 @@ import {
   StyleSheet,
   ActivityIndicator,
   Alert,
-  KeyboardAvoidingView,
   Platform,
   ScrollView,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../../context/AuthContext';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginSchema } from '../services/validation/LoginSchema';
+import Logo from '../../../components/Logo/Logo';
 
 const LoginScreen = ({ navigation }) => {
   const { login, loading, error } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     control,
@@ -37,34 +39,42 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
-    >
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
+    <View style={styles.container}>
+      <ScrollView 
+        contentContainerStyle={styles.scrollContainer}
+        keyboardShouldPersistTaps="handled"
+      >
         <View style={styles.formContainer}>
+          {/* Logo */}
+          <View style={styles.logoContainer}>
+            <Logo width={100} height={100} />
+          </View>
+
           <Text style={styles.title}>JustiConsulta</Text>
           <Text style={styles.subtitle}>Inicia Sesión</Text>
 
           {/* Email Input */}
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Correo Electrónico</Text>
-            <Controller
-              control={control}
-              name="email"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  style={[styles.input, errors.email && styles.inputError]}
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                  placeholder="correo@ejemplo.com"
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                />
-              )}
-            />
+            <View style={styles.inputWrapper}>
+              <Ionicons name="mail-outline" size={20} color="#64748B" style={styles.inputIcon} />
+              <Controller
+                control={control}
+                name="email"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={[styles.input, errors.email && styles.inputError]}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder="correo@ejemplo.com"
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+                )}
+              />
+            </View>
             {errors.email && (
               <Text style={styles.errorText}>{errors.email.message}</Text>
             )}
@@ -73,21 +83,34 @@ const LoginScreen = ({ navigation }) => {
           {/* Password Input */}
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Contraseña</Text>
-            <Controller
-              control={control}
-              name="password"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  style={[styles.input, errors.password && styles.inputError]}
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                  placeholder="••••••••"
-                  secureTextEntry
-                  autoCapitalize="none"
+            <View style={styles.inputWrapper}>
+              <Ionicons name="lock-closed-outline" size={20} color="#64748B" style={styles.inputIcon} />
+              <Controller
+                control={control}
+                name="password"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={[styles.input, errors.password && styles.inputError]}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder="••••••••"
+                    secureTextEntry={!showPassword}
+                    autoCapitalize="none"
+                  />
+                )}
+              />
+              <TouchableOpacity 
+                onPress={() => setShowPassword(!showPassword)}
+                style={styles.eyeIcon}
+              >
+                <Ionicons 
+                  name={showPassword ? "eye-outline" : "eye-off-outline"} 
+                  size={20} 
+                  color="#64748B" 
                 />
-              )}
-            />
+              </TouchableOpacity>
+            </View>
             {errors.password && (
               <Text style={styles.errorText}>{errors.password.message}</Text>
             )}
@@ -96,7 +119,8 @@ const LoginScreen = ({ navigation }) => {
           {/* API Error */}
           {error && (
             <View style={styles.errorContainer}>
-              <Text style={styles.errorText}>{error}</Text>
+              <Ionicons name="alert-circle" size={20} color="#DC2626" />
+              <Text style={styles.errorTextApi}>{error}</Text>
             </View>
           )}
 
@@ -109,7 +133,10 @@ const LoginScreen = ({ navigation }) => {
             {loading ? (
               <ActivityIndicator color="#fff" />
             ) : (
-              <Text style={styles.buttonText}>Iniciar Sesión</Text>
+              <>
+                <Text style={styles.buttonText}>Iniciar Sesión</Text>
+                <Ionicons name="arrow-forward" size={20} color="#FFF" />
+              </>
             )}
           </TouchableOpacity>
 
@@ -119,20 +146,23 @@ const LoginScreen = ({ navigation }) => {
               <Text style={styles.link}>¿Olvidaste tu contraseña?</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-              <Text style={styles.link}>¿No tienes cuenta? Regístrate</Text>
-            </TouchableOpacity>
+            <View style={styles.registerContainer}>
+              <Text style={styles.registerText}>¿No tienes cuenta? </Text>
+              <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+                <Text style={styles.registerLink}>Regístrate</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#F8FAFC',
   },
   scrollContainer: {
     flexGrow: 1,
@@ -140,27 +170,31 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   formContainer: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 20,
+    backgroundColor: '#FFF',
+    borderRadius: 20,
+    padding: 24,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
-    shadowRadius: 8,
+    shadowRadius: 12,
     elevation: 5,
   },
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
   title: {
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: 'bold',
-    color: '#003366',
+    color: '#0F172A',
     textAlign: 'center',
-    marginBottom: 10,
+    marginBottom: 8,
   },
   subtitle: {
-    fontSize: 20,
-    color: '#666',
+    fontSize: 16,
+    color: '#64748B',
     textAlign: 'center',
-    marginBottom: 30,
+    marginBottom: 32,
   },
   inputContainer: {
     marginBottom: 20,
@@ -168,55 +202,96 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: '#0F172A',
     marginBottom: 8,
   },
-  input: {
+  inputWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F1F5F9',
+    borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    padding: 12,
+    borderColor: '#E2E8F0',
+    paddingHorizontal: 12,
+  },
+  inputIcon: {
+    marginRight: 8,
+  },
+  input: {
+    flex: 1,
+    paddingVertical: 14,
     fontSize: 16,
-    backgroundColor: '#fff',
+    color: '#0F172A',
   },
   inputError: {
-    borderColor: '#dc3545',
+    borderColor: '#DC2626',
+  },
+  eyeIcon: {
+    padding: 8,
   },
   errorText: {
-    color: '#dc3545',
+    color: '#DC2626',
     fontSize: 12,
-    marginTop: 4,
+    marginTop: 6,
   },
   errorContainer: {
-    backgroundColor: '#f8d7da',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FEE2E2',
     padding: 12,
-    borderRadius: 8,
-    marginBottom: 16,
+    borderRadius: 10,
+    marginBottom: 20,
+    gap: 8,
+  },
+  errorTextApi: {
+    flex: 1,
+    color: '#DC2626',
+    fontSize: 14,
   },
   button: {
-    backgroundColor: '#003366',
-    padding: 16,
-    borderRadius: 8,
+    flexDirection: 'row',
+    backgroundColor: '#D97706',
+    paddingVertical: 16,
+    borderRadius: 12,
     alignItems: 'center',
-    marginTop: 10,
+    justifyContent: 'center',
+    marginBottom: 20,
+    shadowColor: '#D97706',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
+    gap: 8,
   },
   buttonDisabled: {
-    backgroundColor: '#6c757d',
+    opacity: 0.6,
   },
   buttonText: {
-    color: '#fff',
+    color: '#FFF',
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: 'bold',
   },
   linksContainer: {
-    marginTop: 20,
     alignItems: 'center',
+    gap: 12,
   },
   link: {
-    color: '#003366',
+    color: '#D97706',
     fontSize: 14,
-    marginTop: 10,
-    textDecorationLine: 'underline',
+    fontWeight: '600',
+  },
+  registerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  registerText: {
+    color: '#64748B',
+    fontSize: 14,
+  },
+  registerLink: {
+    color: '#D97706',
+    fontSize: 14,
+    fontWeight: '600',
   },
 });
 

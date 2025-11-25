@@ -139,6 +139,33 @@
   font-weight: 600;
 }
 
+/* Botón Ver Detalles en stat de Inválidos */
+.viewInvalidButton {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: var(--color-error);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
+}
+
+.viewInvalidButton:hover {
+  background: #b91c1c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.35);
+}
+
+.viewInvalidButton:active {
+  transform: translateY(0);
+}
+
 /* Barra de progreso */
 .progressContainer {
   height: 8px;
