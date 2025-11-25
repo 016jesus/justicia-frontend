@@ -7,17 +7,20 @@ import {
   StyleSheet,
   ActivityIndicator,
   Alert,
-  KeyboardAvoidingView,
   Platform,
   ScrollView,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RegisterSchema } from '../services/validation/RegisterSchema';
 import apiClient from '../../../services/APIClient';
+import Logo from '../../../components/Logo/Logo';
 
 const RegisterScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const {
     control,
@@ -31,7 +34,7 @@ const RegisterScreen = ({ navigation }) => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const response = await apiClient.post('/api/auth/register', {
+      const response = await apiClient.post('/auth/register', {
         firstName: data.firstName,
         middleName: data.middleName || '',
         firstLastName: data.firstLastName,
@@ -56,32 +59,39 @@ const RegisterScreen = ({ navigation }) => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
-    >
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
+    <View style={styles.container}>
+      <ScrollView 
+        contentContainerStyle={styles.scrollContainer}
+        keyboardShouldPersistTaps="handled"
+      >
         <View style={styles.formContainer}>
+          <View style={styles.logoContainer}>
+            <Logo width={70} height={70} />
+          </View>
+
           <Text style={styles.title}>Crear Cuenta</Text>
           <Text style={styles.subtitle}>Completa tus datos para registrarte</Text>
 
           {/* First Name */}
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Primer Nombre *</Text>
-            <Controller
-              control={control}
-              name="firstName"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  style={[styles.input, errors.firstName && styles.inputError]}
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                  placeholder="Juan"
-                  autoCapitalize="words"
-                />
-              )}
-            />
+            <View style={styles.inputWrapper}>
+              <Ionicons name="person-outline" size={20} color="#64748B" style={styles.inputIcon} />
+              <Controller
+                control={control}
+                name="firstName"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={[styles.input, errors.firstName && styles.inputError]}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder="Juan"
+                    autoCapitalize="words"
+                  />
+                )}
+              />
+            </View>
             {errors.firstName && (
               <Text style={styles.errorText}>{errors.firstName.message}</Text>
             )}
@@ -239,7 +249,7 @@ const RegisterScreen = ({ navigation }) => {
           </View>
         </View>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 

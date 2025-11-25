@@ -12,6 +12,16 @@ export const AuthProvider = ({ children, navigation }) => {
 
   useEffect(() => {
     loadStoredAuth();
+    
+    // Verificar periódicamente si la sesión expiró
+    const checkSessionInterval = setInterval(() => {
+      if (apiClient.sessionExpired) {
+        apiClient.sessionExpired = false;
+        logout();
+      }
+    }, 1000);
+    
+    return () => clearInterval(checkSessionInterval);
   }, []);
 
   const loadStoredAuth = async () => {
@@ -48,7 +58,7 @@ export const AuthProvider = ({ children, navigation }) => {
       console.log('Enviando credenciales:', credentials);
       
       // Call login API
-      const response = await apiClient.post('/api/auth/login', credentials);
+      const response = await apiClient.post('/auth/login', credentials);
       const responseData = response.data;
       const receivedToken = responseData.token;
       
@@ -109,19 +119,17 @@ export const AuthProvider = ({ children, navigation }) => {
 
   const logout = async (navigate) => {
     try {
-      await AsyncStorage.removeItem('token');
-      await AsyncStorage.removeItem('email');
-      await AsyncStorage.removeItem('user');
+      console.log('🚪 Cerrando sesión...');
+      await AsyncStorage.multiRemove(['token', 'email', 'user']);
       setToken(null);
       setUser(null);
       delete apiClient.defaults.headers.common['Authorization'];
       
-      // Navigate to login screen
-      if (navigate) {
-        navigate('Login');
-      }
+      // No necesitamos navegar manualmente, el AppNavigator 
+      // detectará que isAuthenticated es false y mostrará Login
+      console.log('✅ Sesión cerrada');
     } catch (e) {
-      console.error('Error during logout:', e);
+      console.error('Error durante logout:', e);
     }
   };
 
