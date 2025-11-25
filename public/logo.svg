@@ -1,0 +1,32 @@
+<!-- Icono de JustiConsulta - Logo simplificado para favicon y app icons -->
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo Navy -->
+  <rect width="512" height="512" rx="100" fill="#0F172A"/>
+  
+  <!-- Balanza de la Justicia (Gold) -->
+  <g transform="translate(256, 256)">
+    <!-- Base -->
+    <rect x="-60" y="160" width="120" height="20" rx="10" fill="#D97706"/>
+    
+    <!-- Columna Central -->
+    <rect x="-8" y="-180" width="16" height="340" rx="8" fill="#D97706"/>
+    
+    <!-- Brazo Horizontal -->
+    <rect x="-140" y="-180" width="280" height="12" rx="6" fill="#D97706"/>
+    
+    <!-- Plato Izquierdo -->
+    <path d="M -140 -170 Q -140 -150, -100 -150 L -180 -150 Q -140 -150, -140 -170 Z" fill="#D97706"/>
+    <line x1="-140" y1="-180" x2="-140" y2="-170" stroke="#D97706" stroke-width="3"/>
+    
+    <!-- Plato Derecho -->
+    <path d="M 140 -170 Q 140 -150, 180 -150 L 100 -150 Q 140 -150, 140 -170 Z" fill="#D97706"/>
+    <line x1="140" y1="-180" x2="140" y2="-170" stroke="#D97706" stroke-width="3"/>
+    
+    <!-- Corona Superior -->
+    <circle cx="0" cy="-195" r="15" fill="#D97706"/>
+    <path d="M -10 -200 L 0 -210 L 10 -200 L 5 -190 L -5 -190 Z" fill="#FCD34D"/>
+  </g>
+  
+  <!-- Texto "JC" (Iniciales) -->
+  <text x="256" y="420" font-family="Arial, sans-serif" font-size="80" font-weight="bold" fill="#FBBF24" text-anchor="middle">JC</text>
+</svg>

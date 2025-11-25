@@ -1,19 +1,37 @@
 {
   "expo": {
-    "name": "JustiConsulta Mobile",
+    "name": "JustiConsulta",
     "slug": "justiconsulta-mobile",
     "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0F172A"
+    },
     "platforms": [
       "ios",
       "android"
     ],
     "android": {
-      "package": "com.justiconsulta.mobile"
+      "package": "com.justiconsulta.mobile",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0F172A"
+      }
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.justiconsulta.mobile"
     },
     "extra": {
       "eas": {
         "projectId": "7b03522c-47ad-461d-beed-d1bd18c0b739"
       }
-    }
+    },
+    "description": "Consulta de procesos judiciales de Colombia",
+    "primaryColor": "#D97706"
   }
 }

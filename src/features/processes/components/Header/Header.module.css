@@ -291,6 +291,7 @@
 
 .notifItem:hover { 
   background: #F8FAFC;
+  transform: translateX(4px);
 }
 
 .notifItemUnread {
@@ -299,6 +300,7 @@
 
 .notifItemUnread:hover {
   background: #DBEAFE;
+  transform: translateX(4px);
 }
 
 .notifContent {
@@ -373,7 +375,9 @@
   padding: 12px 18px;
   border-top: 1px solid var(--color-borde-soft);
   background: #F8FAFC;
-  text-align: center;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
 }
 
 .footerButton {
@@ -386,11 +390,32 @@
   padding: 6px 12px;
   border-radius: 6px;
   transition: all 0.2s ease;
+  flex: 1;
 }
 
 .footerButton:hover {
   background: rgba(0, 0, 0, 0.05);
   color: var(--brand-accent);
+}
+
+.simulatorButton {
+  background: var(--brand-accent);
+  border: none;
+  color: white;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  flex: 1;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3);
+}
+
+.simulatorButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.4);
+  background: var(--brand-accent-hover);
 }
 
 /* Continuación de responsive */
@@ -483,9 +508,15 @@
   }
   .notifFooter {
     padding: 10px 14px;
+    flex-direction: column;
   }
-  .footerButton {
+  .footerButton,
+  .simulatorButton {
     font-size: 0.8rem;
+    width: 100%;
+  }
+  .simulatorButton {
+    padding: 10px 16px;
   }
 }
 

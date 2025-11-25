@@ -4,6 +4,7 @@ import { FaPrint, FaBookmark, FaExclamationCircle, FaTimes, FaArrowLeft } from '
 import DashboardLayout from '../components/DashboardLayout/DashboardLayout';
 import apiClient from '../../../services/APIClient';
 import { cachedGet, invalidateCacheByPrefix } from '../../../services/cachedApi';
+import LoadingSpinner from '../../../components/LoadingSpinner/LoadingSpinner';
 import ActivityChart from '../components/Graphics/ActivityChart'; 
 import tableStyles from '../components/ConsultationForm/Table.module.css'; 
 import styles from './ProcessDetail.module.css';
@@ -16,7 +17,7 @@ const tabs = [
 ];
 
 const DataContentTable = React.memo(({ headers, data, loading, error, emptyMsg }) => {
-  if (loading) return <div style={{padding: 20, color: '#666'}}>Cargando datos...</div>;
+  if (loading) return <LoadingSpinner size="small" text="Cargando datos..." />;
   if (error) return <div className="errorBox">{error}</div>;
   if (!data || data.length === 0) return <div style={{padding: 20, color: '#666', fontStyle: 'italic'}}>{emptyMsg}</div>;
 
@@ -173,7 +174,7 @@ const ProcessDetailPage = () => {
           </button>
         </div>
 
-        {loading && <div className={styles.loadingState}>Cargando expediente...</div>}
+        {loading && <LoadingSpinner text="Cargando expediente..." />}
         {error && <div className="errorBox"><FaExclamationCircle/> {error}</div>}
 
         {detail && !loading && (

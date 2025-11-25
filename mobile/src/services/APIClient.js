@@ -2,14 +2,23 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { API_BASE_URL, API_KEY, API_TIMEOUT } from '../config/constants';
 
+// Normalize URL to remove trailing slashes
+const normalizeUrl = (url) => {
+  if (!url) return url;
+  return url.replace(/\/+$/, '');
+};
+
 const apiClient = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: normalizeUrl(API_BASE_URL),
   headers: {
     'Content-Type': 'application/json',
     'X-API-KEY': API_KEY
   },
   timeout: API_TIMEOUT,
 });
+
+// Debug mode - set to false in production
+const DEBUG = __DEV__;
 
 apiClient.interceptors.request.use(
   async (config) => {
@@ -45,27 +54,49 @@ apiClient.interceptors.request.use(
           if (config.headers.common && config.headers.common.Authorization) delete config.headers.common.Authorization;
         }
       } catch (e) {
-        console.warn('No se pudo eliminar Authorization header para endpoint de auth', e);
+        if (DEBUG) console.warn('No se pudo eliminar Authorization header para endpoint de auth', e);
       }
     }
 
-    console.log('Enviando request a:', config.url);
-    console.log('Headers:', config.headers);
+    if (DEBUG) {
+      console.log('📤 REQUEST:', {
+        method: config.method?.toUpperCase(),
+        url: config.baseURL + config.url,
+        headers: config.headers,
+        data: config.data
+      });
+    }
+    
     return config;
   },
   (error) => {
-    console.error('Error en request:', error);
+    if (DEBUG) console.error('❌ Error en request:', error);
     return Promise.reject(error);
   }
 );
 
 apiClient.interceptors.response.use(
   (response) => {
-    console.log('Response exitoso:', response.status);
+    if (DEBUG) {
+      console.log('✅ RESPONSE:', {
+        status: response.status,
+        url: response.config.url,
+        data: response.data
+      });
+    }
     return response;
   },
   (error) => {
-    console.error('Error en response:', error);
+    if (DEBUG) {
+      console.error('❌ ERROR RESPONSE:', {
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        url: error.config?.url,
+        data: error.response?.data,
+        message: error.message,
+        headers: error.response?.headers
+      });
+    }
     return Promise.reject(error);
   }
 );
